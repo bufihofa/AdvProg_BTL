@@ -1,6 +1,7 @@
 
 #include "Npc.h"
 #include "Animation.h"
+#include "Entity.h"
 #include "Game.h"
 #include <bits/stdc++.h>
 //using namespace std;

@@ -3,9 +3,8 @@
 
 #include <bits/stdc++.h>
 #include <SDL.h>
+#include <SDL_image.h>
 #include "SDL_utils.h"
-#include "Entity.h"
-
 using namespace std;
 
 
@@ -44,11 +43,11 @@ public:
     void clearAnimationSave(){
         for(int i=0;i<numberOfFrame;++i){
             SDL_DestroyTexture(frameList[i]);
-            //image = NULL;
         }
         renderer = NULL;
     }
     SDL_Texture* getFrame(int i){
+        if(i>frameList.size()-1) cout<<"[Animation.h] ERROR: Animation Get Frame > Animation Size\n";
         return frameList.at(i);
     }
 };
@@ -57,33 +56,46 @@ class AnimationObject{
 private:
     vector<AnimationLoad> animationLoadList;
     map<string, int> animationHash;
-    double time = 0;
-    Entity* animationPen = new Entity();
 public:
     AnimationObject(){}
 
-    void loadAnimation(string animationName, string path, int numberOfFrame, int speedOfFrame, SDL_Renderer* renderer){
-        if(animationHash[animationName] > 0){
-            cout<<"[Animation.h] Error: Animation '"<<animationName<<"': load failed - animationName is duplicated\n";
+    void loadAnimation(string name, string path, int numberOfFrame, int speedOfFrame, SDL_Renderer* renderer){
+        if(animationHash[name] > 0){
+            cout<<"[Animation.h] ERROR: Animation '"<<name<<"': load failed - name is duplicated\n";
             return;
         }
         animationLoadList.push_back(AnimationLoad(path, numberOfFrame, speedOfFrame, renderer));
-        animationHash[animationName] = animationLoadList.size();
-        cout<<"[Animation.h] Loaded Animation '"<<animationName<<"'\n";
+        animationHash[name] = animationLoadList.size();
+        cout<<"[Animation.h] Loaded Animation '"<<name<<"'\n";
 
     }
-    SDL_Texture* getAnimation(string animationName, int frame){
-        int t = animationHash[animationName]-1;
+    SDL_Texture* getAnimation(string name, int frame){
+        int t = animationHash[name]-1;
+        if(t<0){
+            cout<<"[Animation.h] ERROR: Animation '"<<name<<"' does not exist\n";
+        }
         return animationLoadList.at(t).getFrame(frame);
     }
     SDL_Texture* getAnimationWithID(int id, int frame){
+        if(id>=animationLoadList.size()){
+            cout<<"[Animation.h] ERROR: Animation with ID '"<<id<<"' does not exist\n";
+        }
         return animationLoadList.at(id).getFrame(frame);
     }
     int convertNameToID(string name){
-        return (animationHash[name]-1);
+        int t = animationHash[name]-1;
+        if(t<0){
+            cout<<"[Animation.h] ERROR: Animation '"<<name<<"' does not exist\n";
+            return 0;
+        }
+        return t;
     }
     int getMaxFrameAnimation(string animationName){
         int t = animationHash[animationName]-1;
+        if(t<0){
+            cout<<"[Animation.h] ERROR: Animation '"<<animationName<<"' does not exist\n";
+            return 0;
+        }
         return animationLoadList.at(t).getNumberOfFrame();
     }
 

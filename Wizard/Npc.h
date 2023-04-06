@@ -4,7 +4,7 @@
 #include <bits/stdc++.h>
 #include "Animation.h"
 #include "Game.h"
-
+#include "Entity.h"
 class NPC: public Entity{
 protected:
     double direction_x = 0;
@@ -102,7 +102,7 @@ public:
     }
     void update();
     void renderNPC(double x, double y){
-        this->renderCenter_XY( x,  y);
+        this->renderCenter_Cam( x,  y);
     }
 };
 class Bullet: public NPC{

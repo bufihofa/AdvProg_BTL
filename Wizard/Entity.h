@@ -50,7 +50,7 @@ public:
 
     double getW()  {return pos_double.getW();}
     void setW(double w)    {pos_double.setW(w);  pos.w=pos_double.getW();}
-
+    void setCenterX(double _w)  {this->setX(_w/2 - this->getW()/2);}
     double getCenterX(){
         return getX()+getW()/2;
     }
@@ -87,8 +87,6 @@ public:
     void addH(double h){this->setH(this->getH()+h);}
     void addW(double w){this->setW(this->getW()+w);}
 
-
-
     bool isClicked(int x, int y){
         return ((x >= getX()) && (x <= getX()+getW()) && (y >= getY()) && (y <= getY() + getH()));
     }
@@ -110,6 +108,7 @@ public:
         SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
         setHW(getPos().h, getPos().w);
     }
+
     void render()   {SDL_RenderCopyEx(renderer, image, NULL, &pos, angle, NULL, SDL_FLIP_NONE);}
     void renderCenter(){
         pos_center.h = getH();
@@ -118,43 +117,32 @@ public:
         pos_center.y = getY() - getW()/2.0;
         SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_NONE);
     }
-    void renderCenterFH(){
+    void renderCenterEx(char _c){
         pos_center.h = getH();
         pos_center.w = getW();
         pos_center.x = getX() - getH()/2.0;
         pos_center.y = getY() - getW()/2.0;
-        SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
+        if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
+            else      SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
-    void renderCenterFV(){
-        pos_center.h = getH();
-        pos_center.w = getW();
-        pos_center.x = getX() - getH()/2.0;
-        pos_center.y = getY() - getW()/2.0;
-        SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
-    }
-    void renderCenter_XY(double dx, double dy){
+    void renderCenter_Cam(double dx, double dy){
         pos_center.h = getH();
         pos_center.w = getW();
         pos_center.x = getX() - getH()/2.0 - dx;
         pos_center.y = getY() - getW()/2.0 - dy;
         SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_NONE);
     }
-    void renderCenterFH_XY(double dx, double dy){
+    void renderCenterEx_Cam(double dx, double dy, char _c){
         pos_center.h = getH();
         pos_center.w = getW();
         pos_center.x = getX() - getH()/2.0 - dx;
         pos_center.y = getY() - getW()/2.0 - dy;
-        SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
-    }
-    void renderCenterFV_XY(double dx, double dy){
-        pos_center.h = getH();
-        pos_center.w = getW();
-        pos_center.x = getX() - getH()/2.0 - dx;
-        pos_center.y = getY() - getW()/2.0 - dy;
-        SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
+        if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
+        else    SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
 
-    void setCenterX(double _w)  {this->setX(_w/2 - this->getW()/2);}
+
+
 
     void setRenderer(SDL_Renderer* renderer)    {this->renderer = renderer;}
     void setImage(SDL_Texture* image)   {this->image = image;}

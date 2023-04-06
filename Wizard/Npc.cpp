@@ -46,7 +46,6 @@ void Player::updateDirect(double x, double y){
 
         direction_x = abs_dX * dX/abs(dX);
         direction_y = abs_dY * dY/abs(dY);
-        //cout<<direction_x<<" "<<direction_y<<"\n";
     }
 }
 void Player::update(){
@@ -85,8 +84,8 @@ void Player::renderNPC(double x, double y){
     else if(direction_x > 0){
         direct = 1;
     }
-    if(direct == 0) this->renderCenterFH_XY( x,  y);
-        else        this->renderCenter_XY( x,  y);
+    if(direct == 0) this->renderCenterEx_Cam( x,  y, 'h');
+        else        this->renderCenter_Cam( x,  y);
 }
 //enemyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
 Enemy::Enemy(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationObject* animation, SDL_Renderer* renderer){
@@ -137,8 +136,8 @@ void Enemy::renderNPC(double x, double y){
     else if(direction_x > 0){
         direct = 1;
     }
-    if(direct == 0) this->renderCenterFH_XY( x,  y);
-        else        this->renderCenter_XY( x,  y);
+    if(direct == 0) this->renderCenterEx_Cam( x,  y, 'h');
+        else        this->renderCenter_Cam( x,  y);
 }
 
 //spikeeeeeeeeeeeeee
@@ -215,7 +214,7 @@ void Bullet::renderNPC(double x, double y){
     else if(direction_x > 0){
         direct = 1;
     }
-    if(direct == 0) this->renderCenterFH_XY( x,  y);
-        else        this->renderCenter_XY( x,  y);
+    if(direct == 0) this->renderCenterEx_Cam( x,  y, 'h');
+        else        this->renderCenter_Cam( x,  y);
 }
 
