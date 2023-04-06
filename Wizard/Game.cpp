@@ -11,7 +11,7 @@ double startTime = 0;
 
 Player* player;
 
-deque<SDL_Texture*> grassTile;
+vector<SDL_Texture*> grassTile;
 Entity* grassPen;
 
 
@@ -30,7 +30,7 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, AnimationObject* animatio
     grassTile.push_back(loadTexture("res/grassTile/grassTile_3.png", renderer));
     grassTile.push_back(loadTexture("res/grassTile/grassTile_4.png", renderer));
     grassTile.push_back(loadTexture("res/grassTile/grassTile_5.png", renderer));
-
+    cout<<"LOADED\n";
     // su dung grassPen nhu 1 but ve cac grassTile (do co nhieu grassTile)
     grassPen = new Entity(0, 0, grassTile.at(0), renderer);
     grassPen->setHW(320, 320);
@@ -41,15 +41,12 @@ void Game::renderGrass(SDL_Renderer* renderer, int _dx, int _dy){
     //lam tron lai cac toa do grassTile de co dinh map
     int dx = int(player->getX()/320);
     int dy = int(player->getY()/320);
-
-    int temp;
     for(int i = dx-4; i < dx+5; ++i){
         for(int j = dy-3; j < dy+4; ++j){
             //moi grassTile co 1 texture khac nhau
-            temp = (i+j)%6;
-            if(temp<grassTile.size()) grassPen->setImage(grassTile.at(temp));
+            grassPen->setImage(grassTile.at(abs((i+j)%6)));
             //chinh vi tri cua pen de ve
-            grassPen->setXY(i*grassPen->getW()-_dx, j*grassPen->getH()-_dy);
+            grassPen->setXY(i*320 - _dx, j*320 - _dy);
             grassPen->render();
         }
     }
@@ -70,6 +67,12 @@ void Game::gameContinue(){
 void Game::handleEvents(){
     SDL_Event event;
     SDL_PollEvent(&event);
+    if(event.type == SDL_KEYDOWN){
+        if((event.key.keysym.sym == SDLK_a)){
+            if(isPause()) gameContinue(); else gamePause();
+        }
+
+    }
 
     if(!this->isPause()){
         if(event.type == SDL_MOUSEBUTTONDOWN && player->canAttack()){
@@ -119,10 +122,10 @@ void Game::render(){
 
 void Game::update(){
 
-    if(SDL_GetTicks() % 500 == 11) enemy.push_back(new Enemy("Ene1", 100, 100, 2.8, 1.2, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer()));
-    if(SDL_GetTicks() % 500 == 22) enemy.push_back(new Enemy("Ene1", 100, 100, 2.8, 1.2, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer()));
-    if(SDL_GetTicks() % 500 == 33) enemy.push_back(new Enemy("Ene1", 200, 200, 2.2, 1.5, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer()));
-    if(SDL_GetTicks() % 500 == 44) enemy.push_back(new Enemy("Ene1", 300, 300, 2.0, 2, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer()));
+    if(SDL_GetTicks() % 500 == 11) enemy.push_back(new Enemy("Ene1", 100, 100, 2.8, 1.2, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer(), this));
+    if(SDL_GetTicks() % 500 == 22) enemy.push_back(new Enemy("Ene1", 100, 100, 2.8, 1.2, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer(), this));
+    if(SDL_GetTicks() % 500 == 33) enemy.push_back(new Enemy("Ene1", 200, 200, 2.2, 1.5, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer(), this));
+    if(SDL_GetTicks() % 500 == 44) enemy.push_back(new Enemy("Ene1", 300, 300, 2.0, 2, player->getX()-400+SDL_GetTicks() % 400, player->getY()-600, player->getAnima(), player->getRenderer(), this));
 
     player->update();
 
@@ -142,6 +145,10 @@ void Game::update(){
     if(bullet.size()>0){
         for(int i = 0;i<bullet.size();++i){
             bullet.at(i)->update(16.67);
+            if(bullet.at(i)->getFrame() > bullet.at(i)->getNumberOfFrame()){
+                bullet.erase(bullet.begin() + i);
+                i--;
+            }
         }
     }
 }

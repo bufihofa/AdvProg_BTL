@@ -180,19 +180,19 @@
 	<SDL_image.h>
 	"SDL_utils.h"
 
-1680784298 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.cpp
+1680788734 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.cpp
 	"Npc.h"
 	"Animation.h"
 	"Entity.h"
 	"Game.h"
 	<bits/stdc++.h>
 
-1680784326 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
+1680789453 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
 	<bits/stdc++.h>
 	"Animation.h"
 	"Game.h"
 	"Entity.h"
 
-1680783628 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
+1680789135 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
 	"Npc.h"
 
