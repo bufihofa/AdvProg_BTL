@@ -1,0 +1,130 @@
+# depslib dependency file v1.0
+1677036386 source:c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\sdl_utils.cpp
+	<iostream>
+	"SDL_utils.h"
+
+1677036386 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\sdl_utils.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1677036465 source:c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\main.cpp
+	<bits/stdc++.h>
+	<SDL.h>
+	"SDL_utils.h"
+	"Menu.h"
+
+1677735022 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\menu.h
+	"Entity.h"
+	<bits/stdc++.h>
+
+1677775219 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\entity.h
+	<iostream>
+	"SDL_utils.h"
+
+1677739067 source:c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\mainmenu.cpp
+	"Menu.h"
+	"NewGame.h"
+	<thread>
+	<chrono>
+
+1677862940 source:c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\newgame.cpp
+	<iostream>
+	<SDL.h>
+	"SDL_utils.h"
+	"Game.h"
+	"NewGame.h"
+	"Animation.h"
+	<thread>
+	<chrono>
+
+1677740450 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\game.h
+	<SDL.h>
+	"Animation.h"
+
+1676544079 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\newgame.h
+	"SDL_utils.h"
+
+1677919350 source:c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\game.cpp
+	"Npc.h"
+	"Animation.h"
+	"Game.h"
+	<bits/stdc++.h>
+
+1677814221 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\animation.h
+	<bits/stdc++.h>
+	<SDL.h>
+	"SDL_utils.h"
+	"Entity.h"
+
+1677863791 c:\users\hoapr\onedrive\máy tính\sdl2_code\firewizard\npc.h
+	<bits/stdc++.h>
+	"Entity.h"
+	"Animation.h"
+
+1678187786 source:c:\users\hoapr\onedrive\máy tính\firewizard\main.cpp
+	<bits/stdc++.h>
+	<SDL.h>
+	"SDL_utils.h"
+	"Menu.h"
+
+1677036386 c:\users\hoapr\onedrive\máy tính\firewizard\sdl_utils.h
+	<iostream>
+	<SDL.h>
+	<SDL_image.h>
+
+1677735022 c:\users\hoapr\onedrive\máy tính\firewizard\menu.h
+	"Entity.h"
+	<bits/stdc++.h>
+
+1678690957 c:\users\hoapr\onedrive\máy tính\firewizard\entity.h
+	<iostream>
+	"SDL_utils.h"
+
+1678853460 source:c:\users\hoapr\onedrive\máy tính\firewizard\mainmenu.cpp
+	"Menu.h"
+	"NewGame.h"
+	<thread>
+	<chrono>
+
+1678189217 c:\users\hoapr\onedrive\máy tính\firewizard\newgame.h
+	"SDL_utils.h"
+
+1680020659 source:c:\users\hoapr\onedrive\máy tính\firewizard\newgame.cpp
+	<iostream>
+	<SDL.h>
+	"SDL_utils.h"
+	"Game.h"
+	"NewGame.h"
+	"Animation.h"
+	<thread>
+	<chrono>
+
+1680020694 c:\users\hoapr\onedrive\máy tính\firewizard\game.h
+	<SDL.h>
+	"Animation.h"
+
+1680020649 c:\users\hoapr\onedrive\máy tính\firewizard\animation.h
+	<bits/stdc++.h>
+	<SDL.h>
+	"SDL_utils.h"
+	"Entity.h"
+
+1677036386 source:c:\users\hoapr\onedrive\máy tính\firewizard\sdl_utils.cpp
+	<iostream>
+	"SDL_utils.h"
+
+1679110203 source:c:\users\hoapr\onedrive\máy tính\firewizard\game.cpp
+	"Npc.h"
+	"Animation.h"
+	"Game.h"
+	<bits/stdc++.h>
+
+1679110092 c:\users\hoapr\onedrive\máy tính\firewizard\npc.h
+	<bits/stdc++.h>
+	"Animation.h"
+	"Game.h"
+
+1679110829 source:c:\users\hoapr\onedrive\máy tính\firewizard\npc.cpp
+	"Npc.h"
+
