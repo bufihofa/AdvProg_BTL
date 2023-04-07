@@ -6,7 +6,7 @@
 
 class mButton: public Entity{
 private:
-    bool isHighlight = false;
+    bool isHL = false;
     bool canHL = false;
     Point po;
     string name;
@@ -26,18 +26,18 @@ public:
         if(isCenter) this->setCenterX(1200);
         this->canHL = canHL;
     }
-    bool isHL(){return isHighlight;}
+    bool isHighLight(){return isHL;}
 
-    void HL(){
-        if(canHL && !isHighlight){
+    void HighLight(){
+        if(canHL && !isHL){
             this->setScale(1.15);
-            isHighlight = true;
+            isHL = true;
         }
     }
-    void unHL(){
-        if(isHighlight){
+    void unHighLight(){
+        if(isHL){
             this->setScale(100.0/115.0);
-            isHighlight = false;
+            isHL = false;
         }
     }
     string getName()  {return this->name;}
@@ -70,14 +70,14 @@ public:
         if(stt_button < buttonList.size())
             return &buttonList.at(stt_button);
     }
-    void checkMouseMove(double x, double y){
+    void onMouseMove(double x, double y){
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
-                buttonList.at(i).unHL();
+                buttonList.at(i).unHighLight();
             }
             for(int i=0;i<buttonList.size();++i){
                 if(buttonList.at(i).isClickedCenter(x, y)){
-                    buttonList.at(i).HL();
+                    buttonList.at(i).HighLight();
                     return;
                 }
             }
@@ -85,16 +85,16 @@ public:
     }
     void forceHL(int i){
         if(i < buttonList.size())
-            buttonList.at(i).HL();
+            buttonList.at(i).HighLight();
     }
     void forceUnHL(){
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
-                buttonList.at(i).unHL();
+                buttonList.at(i).unHighLight();
             }
         }
     }
-    string checkMouseClick(double x, double y){
+    string getButtonClicked(double x, double y){
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
                 if(buttonList.at(i).isClickedCenter(x, y)){
@@ -113,7 +113,7 @@ public:
         }
     }
 };
-
+void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height);
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height);
 #endif //ENTITY__H
 

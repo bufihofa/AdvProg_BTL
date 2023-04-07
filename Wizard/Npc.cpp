@@ -1,19 +1,21 @@
 #include "Npc.h"
-Player::Player(double hp, double maxHP, double speed, double scale, AnimationObject* animation, SDL_Renderer* renderer, Game* game){
-    setRenderer(renderer);
-    setHP(hp);
-    setMaxHP(maxHP);
-    setSpeed(speed);
-    setAnima(animation);
-    setImage(animation->getAnimation("WizIdle", 0));
+Player::Player(double hp, double maxHP, double speed, double scale, AnimationList* animation, SDL_Renderer* renderer, Game* game){
     this->game = game;
     maxAttackFrame = 8;
     maxIdleFrame = 6;
     maxRunFrame = 8;
+
+    setImage(animation->getAnimation("WizIdle", 0));
     SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
+
     setHW(getPos().h, getPos().w);
+    setXY(0, 0);
     setScale(scale);
-    setXY(768, 768);
+    setHP(hp);
+    setMaxHP(maxHP);
+    setSpeed(speed);
+    setAnimationList(animation);
+    setRenderer(renderer);
 }
 
 void Player::playAttackAnimation(){
@@ -57,25 +59,25 @@ void Player::update(){
             //game->playerCastSpell("Electric", getX()+200, getY()+200, getX()+200, getY()+200, 2, 2, 100, false, getRenderer(), getAnima());
             //Game::bullet.push_back(new Bullet(name, x, y, toX, toY, scale, speed, speedOfFrame, loopAnimation, renderer, animation));
             //game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()+200, getX()+2000, getY()+2000, 2, 5, 100, true, getRenderer(), getAnima()));
-            game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()+200, getX()+200, getY()+200, 2, 5, 20, false, getRenderer(), getAnima(), game));
-            game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()-200, getX()+200, getY()-200, 2, 5, 20, false, getRenderer(), getAnima(), game));
-            game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()-200, getX()-200, getY()-200, 2, 5, 20, false, getRenderer(), getAnima(), game));
-            game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()+200, getX()-200, getY()+200, 2, 5, 20, false, getRenderer(), getAnima(), game));
+            game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()+200, getX()+200, getY()+200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
+            game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()-200, getX()+200, getY()-200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
+            game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()-200, getX()-200, getY()-200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
+            game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()+200, getX()-200, getY()+200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
             //cout<<game->getBulletLoc().size()<<" size\n";
         }
         else {
-            setImage(getAnima()->getAnimation("WizAttack", getAttackFrame()/5 % maxAttackFrame));
+            setImage(getAnimationList()->getAnimation("WizAttack", getAttackFrame()/5 % maxAttackFrame));
             return;
         }
     }
 
     if(direction_x != 0 || direction_y !=0){
-        setImage(getAnima()->getAnimation("WizRun", (SDL_GetTicks()/120) % maxRunFrame));
+        setImage(getAnimationList()->getAnimation("WizRun", (SDL_GetTicks()/120) % maxRunFrame));
         addX(direction_x);
         addY(direction_y);
     }
 
-    else setImage(getAnima()->getAnimation("WizIdle", (SDL_GetTicks()/120) % maxIdleFrame));
+    else setImage(getAnimationList()->getAnimation("WizIdle", (SDL_GetTicks()/120) % maxIdleFrame));
 }
 void Player::renderNPC(double x, double y){
     if(direction_x < 0){
@@ -88,21 +90,23 @@ void Player::renderNPC(double x, double y){
         else        this->renderCenter_Cam( x,  y);
 }
 //enemyyyyyyyyyyyyyyyyyyyyyyyyyyyyyy
-Enemy::Enemy(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationObject* animation, SDL_Renderer* renderer, Game* game){
-    setRenderer(renderer);
+Enemy::Enemy(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationList* animation, SDL_Renderer* renderer, Game* game){
+    this->game = game;
+    maxAttackFrame = animation->getMaxFrameAnimation(name+"Attack");
+    maxRunFrame = animation->getMaxFrameAnimation(name+"Run");
+
+    setImage(animation->getAnimation(name+"Run", 0));
+    SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
+
+    setHW(getPos().h, getPos().w);
+    setXY(x, y);
+    setScale(scale);
+    setName(name);
     setHP(hp);
     setMaxHP(maxHP);
     setSpeed(speed);
-    setAnima(animation);
-    setName(name);
-    this->game = game;
-    setImage(animation->getAnimation(name+"Run", 0));
-    maxAttackFrame = animation->getMaxFrameAnimation(name+"Attack");
-    maxRunFrame = animation->getMaxFrameAnimation(name+"Run");
-    SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
-    setHW(getPos().h, getPos().w);
-    setScale(scale);
-    setXY(x, y);
+    setAnimationList(animation);
+    setRenderer(renderer);
 }
 void Enemy::update(){
     if (!canAttack()){
@@ -112,7 +116,7 @@ void Enemy::update(){
             setAttack(true);
         }
         else {
-            setImage(getAnima()->getAnimation(name+"Attack", getAttackFrame()/5 % maxAttackFrame));
+            setImage(getAnimationList()->getAnimation(name+"Attack", getAttackFrame()/5 % maxAttackFrame));
             return;
         }
     }
@@ -124,7 +128,7 @@ void Enemy::update(){
     else if(dX > 0) direct = 1;
 
     if(temp<1){
-        setImage(getAnima()->getAnimation(name+"Run", (SDL_GetTicks()/120) % maxRunFrame));
+        setImage(getAnimationList()->getAnimation(name+"Run", (SDL_GetTicks()/120) % maxRunFrame));
         addX(dX);
         addY(dY);
     }
@@ -133,27 +137,29 @@ void Enemy::update(){
 
 
 //spikeeeeeeeeeeeeee
-Spike::Spike(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationObject* animation, SDL_Renderer* renderer, Game* game){
-    setRenderer(renderer);
+Spike::Spike(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationList* animation, SDL_Renderer* renderer, Game* game){
+    this->game = game;
+    maxRunFrame = animation->getMaxFrameAnimation(name);
+    timeBorn = SDL_GetTicks();
+
+    setImage(animation->getAnimation(name, 0));
+    SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
+
+    setHW(getPos().h, getPos().w);
+    setXY(x, y);
+    setScale(scale);
+    setName(name);
     setHP(hp);
     setMaxHP(maxHP);
     setSpeed(speed);
-    setAnima(animation);
-    setName(name);
-    this->game = game;
-    setImage(animation->getAnimation(name, 0));
-    maxRunFrame = animation->getMaxFrameAnimation(name);
-    SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
-    setHW(getPos().h, getPos().w);
-    setScale(scale);
-    setXY(x, y);
-    timeBorn = SDL_GetTicks();
+    setAnimationList(animation);
+    setRenderer(renderer);
 }
 void Spike::update(){
     double temp = getDirectXY();
     double dX = temp*(toX-getX());
     double dY = temp*(toY-getY());
-    setImage(getAnima()->getAnimation(name, ((SDL_GetTicks()+timeBorn)/80) % maxRunFrame));
+    setImage(getAnimationList()->getAnimation(name, ((SDL_GetTicks()+timeBorn)/80) % maxRunFrame));
     if(temp<1){
         addX(dX);
         addY(dY);
@@ -161,25 +167,26 @@ void Spike::update(){
 }
 //bulletttttttttttt
 
-Bullet::Bullet(string name, double x, double y, double toX, double toY, double scale, double speed, int speedOfFrame, bool loopAnimation, SDL_Renderer* renderer, AnimationObject* animation, Game* game){
+Bullet::Bullet(string name, double x, double y, double toX, double toY, double scale, double speed, int speedOfFrame, bool loopAnimation, SDL_Renderer* renderer, AnimationList* animation, Game* game){
+    this->game = game;
     this->id = animation->convertNameToID(name);
-    setXY(x, y);
-    setToXY(toX, toY);
     this->speedOfFrame = speedOfFrame;
     this->numberOfFrame = animation->getMaxFrameAnimation(name);
+    this->loopAnimation = loopAnimation;
     this->frame = 0;
     time = 0;
-    this->game = game;
-    setRenderer(renderer);
-    setSpeed(speed);
-    setAnima(animation);
-    this->loopAnimation = loopAnimation;
+    timeBorn = SDL_GetTicks();
+
     setImage(animation->getAnimationWithID(id, 0));
     SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
+
     setHW(getPos().h, getPos().w);
-    cout<<getH()<<" "<<getW()<<"\n";
+    setXY(x, y);
+    setToXY(toX, toY);
     setScale(scale);
-    timeBorn = SDL_GetTicks();
+    setSpeed(speed);
+    setRenderer(renderer);
+    setAnimationList(animation);
 }
 //renew frame
 void Bullet::update(double timeAdd){
@@ -188,7 +195,7 @@ void Bullet::update(double timeAdd){
         frame++;
         time -= speedOfFrame;
     }
-    if(frame < numberOfFrame) setImage(getAnima()->getAnimationWithID(id, frame));
+    if(frame < numberOfFrame) setImage(getAnimationList()->getAnimationWithID(id, frame));
         else if(loopAnimation) frame = 0;
 
     double temp = getDirectXY();

@@ -143,7 +143,7 @@
 	"SDL_utils.h"
 	"Menu.h"
 
-1677735022 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\menu.h
+1680859344 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\menu.h
 	"Entity.h"
 	<bits/stdc++.h>
 
@@ -151,7 +151,7 @@
 	<iostream>
 	"SDL_utils.h"
 
-1678853460 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
+1680860717 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
 	"Menu.h"
 	"NewGame.h"
 	<thread>
@@ -160,7 +160,7 @@
 1678189217 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\newgame.h
 	"SDL_utils.h"
 
-1680020659 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\newgame.cpp
+1680860717 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\newgame.cpp
 	<iostream>
 	<SDL.h>
 	"SDL_utils.h"
@@ -170,29 +170,29 @@
 	<thread>
 	<chrono>
 
-1680020694 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.h
+1680860852 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.h
 	<SDL.h>
 	"Animation.h"
 
-1680784536 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\animation.h
+1680858098 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\animation.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
 	"SDL_utils.h"
 
-1680788734 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.cpp
+1680861767 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.cpp
 	"Npc.h"
 	"Animation.h"
 	"Entity.h"
 	"Game.h"
 	<bits/stdc++.h>
 
-1680789453 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
+1680861767 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
 	<bits/stdc++.h>
 	"Animation.h"
 	"Game.h"
 	"Entity.h"
 
-1680789135 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
+1680861617 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
 	"Npc.h"
 

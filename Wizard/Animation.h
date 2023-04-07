@@ -8,7 +8,7 @@
 using namespace std;
 
 
-class AnimationLoad{
+class Animation{
 private:
     vector<SDL_Texture*> frameList;
     int numberOfFrame;
@@ -16,8 +16,8 @@ private:
     int h, w;
     SDL_Renderer* renderer;
 public:
-    AnimationLoad(){}
-    AnimationLoad(string path,int numberOfFrame, int speedOfFrame, SDL_Renderer* renderer){
+    Animation(){}
+    Animation(string path,int numberOfFrame, int speedOfFrame, SDL_Renderer* renderer){
 
         this->numberOfFrame = numberOfFrame;
         this->speedOfFrame = speedOfFrame;
@@ -52,20 +52,20 @@ public:
     }
 };
 
-class AnimationObject{
+class AnimationList{
 private:
-    vector<AnimationLoad> animationLoadList;
+    vector<Animation> animationList;
     map<string, int> animationHash;
 public:
-    AnimationObject(){}
+    AnimationList(){}
 
     void loadAnimation(string name, string path, int numberOfFrame, int speedOfFrame, SDL_Renderer* renderer){
         if(animationHash[name] > 0){
             cout<<"[Animation.h] ERROR: Animation '"<<name<<"': load failed - name is duplicated\n";
             return;
         }
-        animationLoadList.push_back(AnimationLoad(path, numberOfFrame, speedOfFrame, renderer));
-        animationHash[name] = animationLoadList.size();
+        animationList.push_back(Animation(path, numberOfFrame, speedOfFrame, renderer));
+        animationHash[name] = animationList.size();
         cout<<"[Animation.h] Loaded Animation '"<<name<<"'\n";
 
     }
@@ -74,13 +74,13 @@ public:
         if(t<0){
             cout<<"[Animation.h] ERROR: Animation '"<<name<<"' does not exist\n";
         }
-        return animationLoadList.at(t).getFrame(frame);
+        return animationList.at(t).getFrame(frame);
     }
     SDL_Texture* getAnimationWithID(int id, int frame){
-        if(id>=animationLoadList.size()){
+        if(id>=animationList.size()){
             cout<<"[Animation.h] ERROR: Animation with ID '"<<id<<"' does not exist\n";
         }
-        return animationLoadList.at(id).getFrame(frame);
+        return animationList.at(id).getFrame(frame);
     }
     int convertNameToID(string name){
         int t = animationHash[name]-1;
@@ -96,7 +96,7 @@ public:
             cout<<"[Animation.h] ERROR: Animation '"<<animationName<<"' does not exist\n";
             return 0;
         }
-        return animationLoadList.at(t).getNumberOfFrame();
+        return animationList.at(t).getNumberOfFrame();
     }
 
 };

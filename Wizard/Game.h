@@ -13,14 +13,13 @@ private:
     bool pause = false;
     SDL_Window *window;
     SDL_Renderer *renderer;
-    AnimationObject* animation;
+    AnimationList* animation;
     vector<Enemy*> enemy;
     vector<Spike*> spike;
     vector<Bullet*> bullet;
 public:
     Game();
-    Game(SDL_Window* window, SDL_Renderer* renderer, AnimationObject* animation);
-
+    Game(SDL_Window* window, SDL_Renderer* renderer, AnimationList* animation);
 
     void init(const char* title, int x, int y, int h, int w);
     void renderGrass(SDL_Renderer* renderer, int _dx, int _dy);
@@ -31,8 +30,6 @@ public:
     bool isRunning(){ return running; }
     bool isPause(){ return pause; }
 
-    void conti(){this->pause = false;}
-    void pau(){this->pause = true;}
     void gamePause();
     void gameContinue();
 

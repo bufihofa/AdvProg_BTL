@@ -9,7 +9,7 @@
 using namespace std;
 
 Game* game;
-AnimationObject* animation;
+AnimationList* animation;
 /*
 void renderThreadFunc(){
 
@@ -24,7 +24,7 @@ void renderThreadFunc(){
 }
 */
 void loadResources(SDL_Renderer* renderer){
-    animation = new AnimationObject();
+    animation = new AnimationList();
     animation->loadAnimation("WizIdle", "res/Ani/Wiz/Idle_", 6, 60, renderer);
     animation->loadAnimation("WizAttack", "res/Ani/Wiz/Attack_", 8, 60, renderer);
     animation->loadAnimation("WizAttack2", "res/Ani/Wiz/Atack2_", 8, 60, renderer);
@@ -52,10 +52,8 @@ void newGame(SDL_Window* window, SDL_Renderer* renderer, int diffMode){
     int updateTime = 0;
     while(game->isRunning()){
         updateTime = SDL_GetTicks();
-        game->handleEvents(); //khi game pause van can bat su kien: vd click cac button
-
+        game->handleEvents();
         if(!game->isPause()){
-            //goi bat su kien nhieu de ko bi delay: vi du an lien tiep 5 phim 1 lan thi se co nhieu su kien phai cho`
             game->handleEvents();
             game->handleEvents();
             game->handleEvents();
@@ -63,7 +61,6 @@ void newGame(SDL_Window* window, SDL_Renderer* renderer, int diffMode){
             game->update();
             game->render();
         }
-        //tinh toan de co dinh UPS
         updateTime = updateDelay - SDL_GetTicks() + updateTime;
         if(updateTime>0){
             this_thread::sleep_for(chrono::milliseconds(updateTime));
