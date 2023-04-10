@@ -143,7 +143,7 @@
 	"SDL_utils.h"
 	"Menu.h"
 
-1680859344 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\menu.h
+1681129520 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\menu.h
 	"Entity.h"
 	<bits/stdc++.h>
 
@@ -151,7 +151,7 @@
 	<iostream>
 	"SDL_utils.h"
 
-1680860717 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
+1681129475 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
 	"Menu.h"
 	"NewGame.h"
 	<thread>
@@ -170,11 +170,11 @@
 	<thread>
 	<chrono>
 
-1680860852 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.h
+1681128785 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.h
 	<SDL.h>
 	"Animation.h"
 
-1680858098 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\animation.h
+1681128785 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\animation.h
 	<bits/stdc++.h>
 	<SDL.h>
 	<SDL_image.h>
@@ -187,7 +187,7 @@
 	"Game.h"
 	<bits/stdc++.h>
 
-1681125056 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
+1681129503 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
 	<bits/stdc++.h>
 	"Animation.h"
 	"Game.h"

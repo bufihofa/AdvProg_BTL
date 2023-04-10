@@ -10,7 +10,14 @@ Menu* trailMenu;
 Entity* background;
 Entity* pointer;
 
+SDL_Window* mWindow;
+SDL_Renderer* mRenderer;
+
+int menuOpening = 1;
+
 void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height){
+    mWindow = window;
+    mRenderer = renderer;
 
     pointer = new Entity(0, 300, "res/Menu/pointer.png", renderer);
     pointer->setScale(0.45);
@@ -41,11 +48,66 @@ void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _hei
     trailMenu->addButton("f3", 600, 550, "res/Menu/HardMode.png", renderer, 0.3, false, true);
 
 }
+int getMenuOpening(string buttonClicked){
+    if     (buttonClicked == "PlayMenu") return 1;
+    else if(buttonClicked == "MageMenu") return 2;
+    else if(buttonClicked == "TrailMenu") return 3;
+    return 0;
+}
+void playButtonClicked(string buttonClicked){
+    if(buttonClicked == "easy"){
+        newGame(mWindow, mRenderer, 1);
+        return;
+    }
+    else if (buttonClicked == "medium"){
+        newGame(mWindow, mRenderer, 2);
+        return;
+    }
+    else if (buttonClicked == "hard"){
+        newGame(mWindow, mRenderer, 3);
+        return;
+    }
+}
+void mageButtonClicked(string buttonClicked){
+    if(buttonClicked == "d1"){
+
+    }
+    else if (buttonClicked == "d2"){
+
+    }
+    else if (buttonClicked == "d3"){
+
+    }
+}
+void trailtButtonClicked(string buttonClicked){
+    if(buttonClicked == "f1"){
+
+    }
+    else if (buttonClicked == "f2"){
+
+    }
+    else if (buttonClicked == "f3"){
+
+    }
+}
+void renderMenuWindow(){
+    background->render();
+    mainMenu->forceHL(menuOpening-1);
+    mainMenu->render();
+    if     (menuOpening == 1) playMenu->render();
+    else if(menuOpening == 2) mageMenu->render();
+    else if(menuOpening == 3) trailMenu->render();
+
+    pointer->setAngle(pointer->getAngle()+3);
+    pointer->renderCenter();
+
+    SDL_RenderPresent(mRenderer);
+}
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height){
     const int PLAY_MENU = 1;
     const int MAGE_MENU = 2;
     const int TRAILT_MENU = 3;
-    int menuOpening = PLAY_MENU;
+
 
     if(background == NULL){
         createMenu(window, renderer, _width, _height);
@@ -64,90 +126,37 @@ void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _heigh
             if(ev.type == SDL_MOUSEMOTION){
                 pointer->setXY(ev.button.x , ev.button.y);
                 mainMenu->onMouseMove(ev.button.x , ev.button.y);
+
+                switch(menuOpening){
+                case PLAY_MENU:
+                    playMenu->onMouseMove(ev.button.x , ev.button.y);
+                    break;
+                case MAGE_MENU:
+                    mageMenu->onMouseMove(ev.button.x , ev.button.y);
+                    break;
+                case TRAILT_MENU:
+                    trailMenu->onMouseMove(ev.button.x , ev.button.y);
+                    break;
+                }
             }
-
             if(ev.type == SDL_MOUSEBUTTONDOWN){
-                string t1 = mainMenu->getButtonClicked(ev.button.x , ev.button.y);
-
-                if(t1 == "PlayMenu") menuOpening = PLAY_MENU;
-                else if(t1 == "MageMenu") menuOpening = MAGE_MENU;
-                else if(t1 == "TrailMenu") menuOpening = TRAILT_MENU;
-
+                switch(menuOpening){
+                case PLAY_MENU:
+                    playButtonClicked(playMenu->getButtonClicked(ev.button.x , ev.button.y));
+                    break;
+                case MAGE_MENU:
+                    mageButtonClicked(mageMenu->getButtonClicked(ev.button.x , ev.button.y));
+                    break;
+                case TRAILT_MENU:
+                    trailtButtonClicked(trailMenu->getButtonClicked(ev.button.x , ev.button.y));
+                    break;
+                }
+                menuOpening = getMenuOpening(mainMenu->getButtonClicked(ev.button.x , ev.button.y));
                 mainMenu->forceUnHL();
             }
-
-            if(menuOpening == PLAY_MENU){
-                if(ev.type == SDL_MOUSEMOTION){
-                    playMenu->onMouseMove(ev.button.x , ev.button.y);
-                }
-                else if(ev.type == SDL_MOUSEBUTTONDOWN){
-                    string buttonClicked = playMenu->getButtonClicked(ev.button.x , ev.button.y);
-                    if(buttonClicked == "easy"){
-                        newGame(window, renderer, 1);
-                        return;
-                    }
-                    else if (buttonClicked == "medium"){
-                        newGame(window, renderer, 2);
-                        return;
-                    }
-                    else if (buttonClicked == "hard"){
-                        newGame(window, renderer, 3);
-                        return;
-                    }
-
-                }
-            }
-            else if(menuOpening == MAGE_MENU){
-                if(ev.type == SDL_MOUSEMOTION){
-                    mageMenu->onMouseMove(ev.button.x , ev.button.y);
-                }
-                else if(ev.type == SDL_MOUSEBUTTONDOWN){
-                    string buttonClicked = mageMenu->getButtonClicked(ev.button.x , ev.button.y);
-                    if(buttonClicked == "d1"){
-                        menuOpening = 1;
-                    }
-                    else if (buttonClicked == "d2"){
-
-                    }
-                    else if (buttonClicked == "d3"){
-
-                    }
-                }
-            }
-            else if(menuOpening == TRAILT_MENU){
-                if(ev.type == SDL_MOUSEMOTION){
-                    trailMenu->onMouseMove(ev.button.x , ev.button.y);
-                }
-                else if(ev.type == SDL_MOUSEBUTTONDOWN){
-                    string buttonClicked = trailMenu->getButtonClicked(ev.button.x , ev.button.y);
-                    if(buttonClicked == "d1"){
-                        menuOpening = 1;
-                    }
-                    else if (buttonClicked == "d2"){
-
-                    }
-                    else if (buttonClicked == "d3"){
-
-                    }
-                }
-                //);
-            }
-
-
         }
 
-        background->render();
-        mainMenu->forceHL(menuOpening-1);
-        mainMenu->render();
-        if     (menuOpening == 1) playMenu->render();
-        else if(menuOpening == 2) mageMenu->render();
-        else if(menuOpening == 3) trailMenu->render();
-
-
-        pointer->setAngle(pointer->getAngle()+3);
-        pointer->renderCenter();
-
-        SDL_RenderPresent(renderer);
+        renderMenuWindow();
 
         frameTime = frameDelay - SDL_GetTicks() + frameTime;
         if(frameTime>0) this_thread::sleep_for(chrono::milliseconds(frameTime));

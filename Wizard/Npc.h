@@ -134,7 +134,7 @@ protected:
 
     Game* game;
     AnimationList* animationList;
-    HitBox* hitBox;
+    //HitBox* hitBox;
 public:
 
     void setAnimationList(AnimationList* animation)   {this->animationList = animation;}

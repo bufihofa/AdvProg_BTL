@@ -8,7 +8,6 @@ class mButton: public Entity{
 private:
     bool isHL = false;
     bool canHL = false;
-    Point po;
     string name;
 public:
     mButton(){}

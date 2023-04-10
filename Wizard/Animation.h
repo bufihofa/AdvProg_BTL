@@ -40,7 +40,7 @@ public:
     double getW(){
         return this->w;
     }
-    void clearAnimationSave(){
+    void clearAnimation(){
         for(int i=0;i<numberOfFrame;++i){
             SDL_DestroyTexture(frameList[i]);
         }

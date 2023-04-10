@@ -21,7 +21,6 @@ public:
     Game();
     Game(SDL_Window* window, SDL_Renderer* renderer, AnimationList* animation);
 
-    void init(const char* title, int x, int y, int h, int w);
     void renderGrass(SDL_Renderer* renderer, int _dx, int _dy);
     void handleEvents();
     void update();
