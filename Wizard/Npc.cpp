@@ -63,6 +63,7 @@ void Player::update(){
             game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()-200, getX()+200, getY()-200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
             game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()-200, getX()-200, getY()-200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
             game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()+200, getX()-200, getY()+200, 2, 5, 20, false, getRenderer(), getAnimationList(), game));
+            game->getBulletLoc().push_back(new Bullet("Electric", getX()-1000, getY()+1000, getX()-1000, getY()+1000, 2, 5, 20, true, getRenderer(), getAnimationList(), game, this));
             //cout<<game->getBulletLoc().size()<<" size\n";
         }
         else {
@@ -188,8 +189,31 @@ Bullet::Bullet(string name, double x, double y, double toX, double toY, double s
     setRenderer(renderer);
     setAnimationList(animation);
 }
+Bullet::Bullet(string name, double x, double y, double toX, double toY, double scale, double speed, int speedOfFrame, bool loopAnimation, SDL_Renderer* renderer, AnimationList* animation, Game* game, NPC* victim){
+    this->game = game;
+    this->id = animation->convertNameToID(name);
+    this->speedOfFrame = speedOfFrame;
+    this->numberOfFrame = animation->getMaxFrameAnimation(name);
+    this->loopAnimation = loopAnimation;
+    this->frame = 0;
+    this->victim = victim;
+    time = 0;
+    timeBorn = SDL_GetTicks();
+
+    setImage(animation->getAnimationWithID(id, 0));
+    SDL_QueryTexture(getImage(), NULL, NULL, &getPos().w, &getPos().h);
+
+    setHW(getPos().h, getPos().w);
+    setXY(x, y);
+    setToXY(toX, toY);
+    setScale(scale);
+    setSpeed(speed);
+    setRenderer(renderer);
+    setAnimationList(animation);
+}
 //renew frame
 void Bullet::update(double timeAdd){
+    if(victim != NULL) setToXY(victim->getX(), victim->getY());
     time += timeAdd;
     if(time >= speedOfFrame){
         frame++;
