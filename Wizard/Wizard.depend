@@ -151,11 +151,8 @@
 	<iostream>
 	"SDL_utils.h"
 
-1681129475 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
-	"Menu.h"
-	"NewGame.h"
-	<thread>
-	<chrono>
+1681130490 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
+	"MainMenu.h"
 
 1678189217 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\newgame.h
 	"SDL_utils.h"
@@ -195,4 +192,10 @@
 
 1681119554 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
 	"Npc.h"
+
+1681130436 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.h
+	"Menu.h"
+	"NewGame.h"
+	<thread>
+	<chrono>
 
