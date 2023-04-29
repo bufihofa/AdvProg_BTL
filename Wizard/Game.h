@@ -1,12 +1,14 @@
-#ifndef GAME__H
-#define GAME__H
-
+#pragma once
+#include <bits/stdc++.h>
 #include <SDL.h>
 #include "Animation.h"
-class Enemy;
+using namespace std;
 class Spike;
 class Bullet;
-
+class Exp;
+class Player;
+class NPC;
+class Grid;
 class Game{
 private:
     bool running = true;
@@ -14,10 +16,13 @@ private:
     SDL_Window *window;
     SDL_Renderer *renderer;
     AnimationList* animation;
-    vector<Enemy*> enemy;
     vector<Spike*> spike;
     vector<Bullet*> bullet;
+    vector<Exp*> exp;
+    bool levelUpMenu = false;
 public:
+    Player* p;
+    Grid* g;
     Game();
     Game(SDL_Window* window, SDL_Renderer* renderer, AnimationList* animation);
 
@@ -31,18 +36,20 @@ public:
 
     void gamePause();
     void gameContinue();
+    void createEnemy();
+    void createExp();
+    void onPlayerLevelUp();
+    void drawParticle(int _lifeTime, double _pX, double _pY);
+    bool checkCollide(NPC* npc);
 
-    vector<Enemy*>& getEnemyLoc(){
-        return enemy;
-    }
     vector<Spike*>& getSpikeLoc(){
         return spike;
     }
     vector<Bullet*>& getBulletLoc(){
         return bullet;
     }
-
+    vector<Exp*>& getExpLoc(){
+        return exp;
+    }
 };
 
-
-#endif // GAME__H

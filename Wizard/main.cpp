@@ -1,7 +1,6 @@
 #include <bits/stdc++.h>
 #include <SDL.h>
 #include "SDL_utils.h"
-//#include "Game.h"
 #include "Menu.h"
 using namespace std;
 
@@ -22,6 +21,7 @@ int main(int argc, char* argv[])
 
     //Open Game Menu -> MainMenu.cpp
     openMenu(window, renderer, SCREEN_WIDTH, SCREEN_HEIGHT);
+    //newGame(window, renderer, 1);
     //quitSDL(window, renderer);
     return 0;
 }

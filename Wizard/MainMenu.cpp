@@ -1,5 +1,7 @@
 
 #include "MainMenu.h"
+#include "Menu.h"
+#include "NewGame.h"
 Menu* mainMenu;
 Menu* playMenu;
 Menu* mageMenu;
@@ -9,12 +11,19 @@ Entity* pointer;
 
 SDL_Window* mWindow;
 SDL_Renderer* mRenderer;
-
+bool MENU = false;
 const int PLAY_MENU = 1;
 const int MAGE_MENU = 2;
 const int TRAILT_MENU = 3;
 
-int menuOpening = PLAY_MENU;
+int menuOpening = 1;
+
+int getMenuOpening(string buttonClicked){
+    if     (buttonClicked == "PlayMenu") return 1;
+    else if(buttonClicked == "MageMenu") return 2;
+    else if(buttonClicked == "TrailMenu") return 3;
+    return menuOpening;
+}
 void createMainMenu(){
     mainMenu = new Menu(mRenderer);
     mainMenu->addButton("PlayMenu", 600, 700, "res/Menu/PlayButton.png", mRenderer, 1, false, true);
@@ -55,24 +64,18 @@ void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _hei
     createTrailMenu();
 
 }
-int getMenuOpening(string buttonClicked){
-    if     (buttonClicked == "PlayMenu") return 1;
-    else if(buttonClicked == "MageMenu") return 2;
-    else if(buttonClicked == "TrailMenu") return 3;
-    return menuOpening;
-}
 void playButtonClicked(string buttonClicked){
     if(buttonClicked == "easy"){
         newGame(mWindow, mRenderer, 1);
-        return;
+        MENU = false;
     }
     else if (buttonClicked == "medium"){
         newGame(mWindow, mRenderer, 2);
-        return;
+        MENU = false;
     }
     else if (buttonClicked == "hard"){
         newGame(mWindow, mRenderer, 3);
-        return;
+        MENU = false;
     }
 }
 void mageButtonClicked(string buttonClicked){
@@ -142,17 +145,18 @@ void onMenuMouseClick(double x, double y){
     mainMenu->forceUnHL();
 }
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height){
-    if(background == NULL){
+    if(mainMenu == NULL){
         createMenu(window, renderer, _width, _height);
     }
-
+    //SDL_ShowCursor(0);
     SDL_Event ev;
     int FPS = 60;
     int frameDelay = 1000 / FPS;
     int frameTime = 0;
-
-    while(true){
+    MENU = true;
+    while(MENU){
         frameTime = SDL_GetTicks();
+        renderMenuWindow();
         while(SDL_PollEvent(&ev) != 0){
             if(ev.type == SDL_QUIT) return;
 
@@ -163,10 +167,11 @@ void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _heigh
                 onMenuMouseClick(ev.button.x, ev.button.y);
             }
         }
-        renderMenuWindow();
-
+        //cout<<"render\n";
+        if(!MENU) return;
         frameTime = frameDelay - SDL_GetTicks() + frameTime;
         if(frameTime>0) this_thread::sleep_for(chrono::milliseconds(frameTime));
+
     }
 
 }

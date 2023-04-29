@@ -1,8 +1,7 @@
-#ifndef MENU__H
-#define MENU__H
-
-#include "Entity.h"
+#pragma once
 #include <bits/stdc++.h>
+#include "Entity.h"
+using namespace std;
 
 class mButton: public Entity{
 private:
@@ -114,5 +113,5 @@ public:
 };
 void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height);
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height);
-#endif //ENTITY__H
+
 

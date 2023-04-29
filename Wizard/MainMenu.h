@@ -1,7 +1,10 @@
-#include "Menu.h"
-#include "NewGame.h"
+#pragma once
+#include <bits/stdc++.h>
 #include <thread>
 #include <chrono>
+#include "SDL_utils.h"
+using namespace std;
+
 
 void createMainMenu();
 void createPlayMenu();

@@ -1,9 +1,5 @@
-#ifndef ANIMATION_H
-#define ANIMATION_H
-
+#pragma once
 #include <bits/stdc++.h>
-#include <SDL.h>
-#include <SDL_image.h>
 #include "SDL_utils.h"
 using namespace std;
 
@@ -102,4 +98,3 @@ public:
 };
 
 
-#endif //ANIMATION.H

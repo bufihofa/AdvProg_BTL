@@ -1,6 +1,9 @@
 
 #include <iostream>
 #include "SDL_utils.h"
+#include <SDL.h>
+#include <SDL_image.h>
+
 using namespace std;
 
 
@@ -74,8 +77,6 @@ SDL_Texture* NewLayer(SDL_Renderer* renderer, int SCREEN_WIDTH, int SCREEN_HEIGH
     SDL_SetRenderTarget(renderer, NULL);
     return my_layer;
 }
-
-
 
 
 

@@ -1,8 +1,6 @@
-#ifndef ENTITY__H
-#define ENTITY__H
-
-#include <iostream>
-#include "SDL_utils.h"
+#pragma once
+#include <bits/stdc++.h>
+using namespace std;
 
 class Point{
 private:
@@ -46,10 +44,10 @@ public:
     void setY(double y)    {pos_double.setY(y);  pos.y=pos_double.getY();}
 
     double getH()  {return pos_double.getH();}
-    void setH(double h)    {pos_double.setH(h);  pos.h=pos_double.getH();}
+    void setH(double h)    {pos_double.setH(h);  pos.h=pos_double.getH(); pos_center.h = pos.h;}
 
     double getW()  {return pos_double.getW();}
-    void setW(double w)    {pos_double.setW(w);  pos.w=pos_double.getW();}
+    void setW(double w)    {pos_double.setW(w);  pos.w=pos_double.getW(); pos_center.w = pos.w;}
     void setCenterX(double _w)  {this->setX(_w/2 - this->getW()/2);}
     double getCenterX(){
         return getX()+getW()/2;
@@ -111,32 +109,28 @@ public:
 
     void render()   {SDL_RenderCopyEx(renderer, image, NULL, &pos, angle, NULL, SDL_FLIP_NONE);}
     void renderCenter(){
-        pos_center.h = getH();
-        pos_center.w = getW();
-        pos_center.x = getX() - getH()/2.0;
-        pos_center.y = getY() - getW()/2.0;
+
+        pos_center.x = pos.x - pos.h/2.0;
+        pos_center.y = pos.y - pos.w/2.0;
         SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_NONE);
     }
     void renderCenterEx(char _c){
-        pos_center.h = getH();
-        pos_center.w = getW();
-        pos_center.x = getX() - getH()/2.0;
-        pos_center.y = getY() - getW()/2.0;
+
+        pos_center.x = pos.x - pos.h/2.0;
+        pos_center.y = pos.y - pos.w/2.0;
         if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
             else      SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
-    void renderCenter_Cam(double dx, double dy){
-        pos_center.h = getH();
-        pos_center.w = getW();
-        pos_center.x = getX() - getH()/2.0 - dx;
-        pos_center.y = getY() - getW()/2.0 - dy;
+    void renderCenter_Cam(double& dx, double& dy){
+
+        pos_center.x = pos.x - pos.h/2.0 - dx;
+        pos_center.y = pos.y - pos.w/2.0 - dy;
         SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_NONE);
     }
-    void renderCenterEx_Cam(double dx, double dy, char _c){
-        pos_center.h = getH();
-        pos_center.w = getW();
-        pos_center.x = getX() - getH()/2.0 - dx;
-        pos_center.y = getY() - getW()/2.0 - dy;
+    void renderCenterEx_Cam(double& dx, double& dy, char _c){
+
+        pos_center.x = pos.x - pos.h/2.0 - dx;
+        pos_center.y = pos.y - pos.w/2.0 - dy;
         if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
         else    SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
@@ -158,7 +152,4 @@ public:
     }
 };
 
-
-
-#endif //ENTITY__H
 
