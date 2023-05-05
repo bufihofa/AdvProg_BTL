@@ -3,14 +3,14 @@
 #include "Menu.h"
 #include "NewGame.h"
 Menu* mainMenu = NULL;
-Menu* playMenu;
-Menu* mageMenu;
-Menu* trailMenu;
-Entity* background;
-Entity* pointer;
+Menu* playMenu = NULL;
+Menu* mageMenu = NULL;
+Menu* trailMenu = NULL;
+Entity* background = NULL;
+Entity* pointer = NULL;
 
-SDL_Window* mWindow;
-SDL_Renderer* mRenderer;
+SDL_Window* mWindow = NULL;
+SDL_Renderer* mRenderer = NULL;
 bool MENU = false;
 const int PLAY_MENU = 1;
 const int MAGE_MENU = 2;
@@ -35,15 +35,13 @@ void createMainMenu(){
 }
 void createPlayMenu(){
     playMenu = new Menu(mRenderer);
-    playMenu->addButton("easy", 600, 150, "res/Menu/easy.png", mRenderer, 0.3, false, true);
-    playMenu->addButton("medium", 600, 350, "res/Menu/normal.png", mRenderer, 0.3, false, true);
-    playMenu->addButton("hard", 600, 550, "res/Menu/hard.png", mRenderer, 0.3, false, true);
+    playMenu->addButton("easy", 600, 200, "res/Menu/easy.png", mRenderer, 0.45, false, true);
+    playMenu->addButton("medium", 600, 350, "res/Menu/normal.png", mRenderer, 0.45, false, true);
+    playMenu->addButton("hard", 600, 500, "res/Menu/hard.png", mRenderer, 0.45, false, true);
 }
 void createMageMenu(){
     mageMenu = new Menu(mRenderer);
-    mageMenu->addButton("d1", 600, 150, "res/Menu/EasyMode.png", mRenderer, 0.3, false, true);
-    mageMenu->addButton("d2", 600, 350, "res/Menu/MediumMode.png", mRenderer, 0.3, false, true);
-    mageMenu->addButton("d3", 600, 550, "res/Menu/HardMode.png", mRenderer, 0.3, false, true);
+    mageMenu->addButton("howtoplay", 600, 360, "res/Menu/howtoplay.png", mRenderer, 0.8, false, true);
 }
 void createTrailMenu(){
     trailMenu = new Menu(mRenderer);

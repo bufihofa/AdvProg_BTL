@@ -31,10 +31,10 @@ Entity* particlePen = NULL;
 vector<SDL_Texture*> grassTile;
 Entity* grassPen = NULL;
 
-Grid* grid20;
-Grid* grid10;
-Grid* grid5;
-Player* player;
+Grid* grid20 = NULL;
+Grid* grid10 = NULL;
+Grid* grid5 = NULL;
+Player* player = NULL;
 
 int DEAD_ID;
 int mouseX, mouseY;
@@ -50,10 +50,10 @@ Entity* HPBar = NULL;
 Entity* HPBar2 = NULL;
 
 
-Mix_Chunk  *expCollectSound,
-           *horrorSound,
-           *levelUpSound,
-           *clickedSound;
+Mix_Chunk  *expCollectSound = NULL,
+           *horrorSound = NULL,
+           *levelUpSound = NULL,
+           *clickedSound = NULL;
 
 double GameTime = 0;
 double SpawnTime = 0;
@@ -97,15 +97,6 @@ void Game::checkDelay(int& delay){
         else if(this->g == grid10){
             this->g = grid5;
         }
-    }
-    if(this->g == grid20){
-        cout<<"20\n";
-    }
-    if(this->g == grid10){
-        cout<<"10\n";
-    }
-    if(this->g == grid5){
-        cout<<"5\n";
     }
 }
 Game::Game(SDL_Window* window, SDL_Renderer* renderer, AnimationList* animation){

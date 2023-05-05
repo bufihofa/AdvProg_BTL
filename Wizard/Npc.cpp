@@ -2,18 +2,18 @@
 #include "Game.h"
 #include "QTree.h"
 
-Mix_Chunk  *hitSound,
-           *boom0Sound,
-           *boom1Sound,
-           *boom2Sound,
-           *clickSound,
-           *blastSound,
-           *lightning1,
-           *lightning2,
-           *lightning3,
-           *tornadoSound,
-           *purpleSound,
-           *fireBurstSound;
+Mix_Chunk  *hitSound = NULL,
+           *boom0Sound = NULL,
+           *boom1Sound = NULL,
+           *boom2Sound = NULL,
+           *clickSound = NULL,
+           *blastSound = NULL,
+           *lightning1 = NULL,
+           *lightning2 = NULL,
+           *lightning3 = NULL,
+           *tornadoSound = NULL,
+           *purpleSound = NULL,
+           *fireBurstSound = NULL;
 void soundLoad2(){
     hitSound = Mix_LoadWAV("res/wav/hit.wav");
     boom0Sound = Mix_LoadWAV("res/wav/bom_0.wav");
@@ -278,7 +278,7 @@ void Player::update(){
         if(getAttackFrame() > 7*5){
             setRun(true);
             setAttack(true);
-            castSkill("fireburst", 1, clickedX, clickedY);
+            castSkill("purple", 1, clickedX, clickedY);
             setAttackFrame(0);
         }
         else {

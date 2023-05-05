@@ -35,6 +35,8 @@ void initSDL(SDL_Window* &window, SDL_Renderer* &renderer, int SCREEN_WIDTH, int
     if( Mix_OpenAudio( 44100, MIX_DEFAULT_FORMAT, 2, 2048 ) < 0 ){
         printf( "SDL_mixer could not initialize! SDL_mixer Error: %s\n", Mix_GetError() );
     }
+    string iconPath = "res/icon.png";
+    SDL_SetWindowIcon(window, IMG_Load(iconPath.c_str()));
 }
 
 void quitSDL(SDL_Window* window, SDL_Renderer* renderer)

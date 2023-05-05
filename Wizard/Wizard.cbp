@@ -49,6 +49,9 @@
 		<Unit filename="SDL_utils.h" />
 		<Unit filename="VaCham.h" />
 		<Unit filename="main.cpp" />
+		<Unit filename="rr.rc">
+			<Option compilerVar="WINDRES" />
+		</Unit>
 		<Extensions>
 			<lib_finder disable_auto="1" />
 		</Extensions>
