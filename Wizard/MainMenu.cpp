@@ -2,7 +2,7 @@
 #include "MainMenu.h"
 #include "Menu.h"
 #include "NewGame.h"
-Menu* mainMenu;
+Menu* mainMenu = NULL;
 Menu* playMenu;
 Menu* mageMenu;
 Menu* trailMenu;
@@ -18,6 +18,8 @@ const int TRAILT_MENU = 3;
 
 int menuOpening = 1;
 
+Mix_Chunk* clickWav = NULL;
+
 int getMenuOpening(string buttonClicked){
     if     (buttonClicked == "PlayMenu") return 1;
     else if(buttonClicked == "MageMenu") return 2;
@@ -25,6 +27,7 @@ int getMenuOpening(string buttonClicked){
     return menuOpening;
 }
 void createMainMenu(){
+    clickWav = Mix_LoadWAV("res/wav/click.wav");
     mainMenu = new Menu(mRenderer);
     mainMenu->addButton("PlayMenu", 600, 700, "res/Menu/PlayButton.png", mRenderer, 1, false, true);
     mainMenu->addButton("MageMenu", 400, 700, "res/Menu/MageButton.png", mRenderer, 1, false, true);
@@ -32,9 +35,9 @@ void createMainMenu(){
 }
 void createPlayMenu(){
     playMenu = new Menu(mRenderer);
-    playMenu->addButton("easy", 600, 150, "res/Menu/EasyMode.png", mRenderer, 0.5, false, true);
-    playMenu->addButton("medium", 600, 350, "res/Menu/MediumMode.png", mRenderer, 0.5, false, true);
-    playMenu->addButton("hard", 600, 550, "res/Menu/HardMode.png", mRenderer, 0.5, false, true);
+    playMenu->addButton("easy", 600, 150, "res/Menu/easy.png", mRenderer, 0.3, false, true);
+    playMenu->addButton("medium", 600, 350, "res/Menu/normal.png", mRenderer, 0.3, false, true);
+    playMenu->addButton("hard", 600, 550, "res/Menu/hard.png", mRenderer, 0.3, false, true);
 }
 void createMageMenu(){
     mageMenu = new Menu(mRenderer);
@@ -144,6 +147,7 @@ void onMenuMouseClick(double x, double y){
     menuOpening = getMenuOpening(mainMenu->getButtonClicked(x, y));
     mainMenu->forceUnHL();
 }
+
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height){
     if(mainMenu == NULL){
         createMenu(window, renderer, _width, _height);
@@ -164,6 +168,7 @@ void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _heigh
                 onMenuMouseMove(ev.button.x, ev.button.y);
             }
             if(ev.type == SDL_MOUSEBUTTONDOWN){
+                Mix_PlayChannel(-1, clickWav, 0);
                 onMenuMouseClick(ev.button.x, ev.button.y);
             }
         }

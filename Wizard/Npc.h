@@ -4,6 +4,19 @@
 #include "Entity.h"
 using namespace std;
 class Game;
+class Skill{
+public:
+    string name;
+    int level;
+    double cooldown;
+    double timer;
+
+    Skill(string name, int level, double cooldown){
+        this->name = name;
+        this->level = level;
+        this->cooldown = cooldown;
+    }
+};
 //######################### NPC #################################################
 class NPC: public Entity{
 protected:
@@ -144,26 +157,29 @@ public:
 //######################## PLAYER ###############################################
 class Player: public NPC{
 private:
-
-
     double nowXP = 0;
     double maxXP = 300;
     double level = 1;
     double timeTemp = 0;
+    double clickedX;
+    double clickedY;
 public:
+    vector<Skill*> skillList;
     Player();
     Player(double hp, double maxHP, double speed, double scale, AnimationList* animation, SDL_Renderer* renderer, Game* game);
-    void playAttackAnimation();
+    void playAttackAnimation(double x, double y);
     void updateDirect(double x, double y);
     void update();
     void renderNPC(double x, double y);
     void addXP(double xp);
     void levelUP();
-    void castSkill(string name, int level);
+    void upSkill(string name);
+    void castSkill(string name, int level, double Sx, double Sy);
     //
     void setXP(double xp){ nowXP = xp;}
     double getXP(){ return this->nowXP;}
-    double getProgress(){ return nowXP/maxXP;}
+    double getXPPro(){ return nowXP/maxXP;}
+    double getHPPro(){ return HP/maxHP;}
 };
 
 
@@ -171,8 +187,9 @@ public:
 class Spike: public NPC{
 public:
     int deadAnimation = -1;
+    int mousePoint = 0;
     Spike(){}
-    Spike(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationList* animation, SDL_Renderer* renderer, Game* game);
+    Spike(string name, double hp, double maxHP, double attackDamage, double speed, double scale, double x, double y, AnimationList* animation, SDL_Renderer* renderer, Game* game);
     void update(double _x, double _y);
     //
     void renderNPC(double x, double y){this->renderCenter_Cam( x,  y);}

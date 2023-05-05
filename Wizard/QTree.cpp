@@ -4,17 +4,17 @@
 void Grid::hashSpike(NPC* b){
     int ax, ay, bx, by;
     int s = game->getBulletLoc().size();
-    ax =   (b->getX()-x - b->getR())/cellSize;
-    ay =   (b->getY()-y - b->getR())/cellSize;
-    bx = ((b->getX()-x + b->getR())/cellSize);
-    by = ((b->getY()-y + b->getR())/cellSize);
+    ax =   (b->getX()-x+b->vecX*8 - b->getR())/cellSize;
+    ay =   (b->getY()-y+b->vecY*8 - b->getR())/cellSize;
+    bx = ((b->getX()-x+b->vecX*8 + b->getR())/cellSize);
+    by = ((b->getY()-y+b->vecY*8 + b->getR())/cellSize);
 
     for(int i = ay; i<=by; ++i){
         if(i>=0 && i<rows){
             for(int j = ax; j<=bx; ++j){
                 if(j>=0 && j<cols){
                     if(cell[i][j]->delta == INT_MAX){
-                        if(getDistance(b->getX()-x, cell[i][j]->x, b->getY()-y, cell[i][j]->y) < b->getR()*1.5){
+                        if(getDistance(b->getX()-x+b->vecX*8, cell[i][j]->x, b->getY()-y+b->vecY*8, cell[i][j]->y) < b->getR()*1.7){
                             cell[i][j]->delta = -1;
                         }
 
@@ -48,7 +48,7 @@ void Grid::hashSkill(){
                     for(int j = ax; j<=bx; ++j){
                         if(j>=0 && j<cols){
                             if(cell[i][j]->delta == INT_MAX){
-                                if(getDistance(b->getX()+dX-x, cell[i][j]->x, b->getY()+dY-y, cell[i][j]->y) < b->getR()*2.2){
+                                if(getDistance(b->getX()+dX-x, cell[i][j]->x, b->getY()+dY-y, cell[i][j]->y) < b->getR()*2.5){
                                     cell[i][j]->delta = -1;
                                 }
 
@@ -77,15 +77,16 @@ void Grid::checkG(int u, int v){
     }
 }
 void Grid::findPath(Spike* spike){
-    if(spike->distanceBetween(game->p) < 60){
-        spike->update(game->p->getX()+13, game->p->getY());
+    if(spike->distanceBetween(game->p) < 20){
+        spike->update(spike->getX(), spike->getY());
         return;
     }
+
     int j = (spike->getX()-x)/cellSize;
     int i = (spike->getY()-y)/cellSize;
 
     if(i<1 || i>=rows-1 || j<1 || j>=cols-1){
-        spike->update(game->p->getX()+13, game->p->getY());
+        spike->update(game->p->getX(), game->p->getY()+10);
         return;
     }
     du = i;
@@ -102,10 +103,13 @@ void Grid::findPath(Spike* spike){
     checkG(i-1, j-1);
 
     if(i==du && j == dv){
-        spike->update(game->p->getX()+13, game->p->getY());
+        spike->update(game->p->getX(), game->p->getY()+10);
         return;
     }
-    spike->updateVec(game->p->getX()+13, game->p->getY());
-    spike->update(spike->getX()+(dv-j)*cellSize + game->p->vecX*5 + spike->vecX*15 , spike->getY()+(du-i)*cellSize + game->p->vecY*5 + spike->vecY*15 );
+    if(getDistance(spike->toX, spike->getX()+(dv-j)*cellSize , spike->toY,spike->getY()+(du-i)*cellSize)>cellSize/1.5)
+        spike->setToXY(spike->getX()+(dv-j)*cellSize + game->p->vecX*(rand()%3 + 2)*(rand()%3 - 1), spike->getY()+(du-i)*cellSize + game->p->vecY*(rand()%3 + 2)*(rand()%3 - 1));
+
+    spike->update(spike->toX , spike->toY);
+    //spike->update(spike->getX()+(dv-j)*cellSize , spike->getY()+(du-i)*cellSize );
 
 }

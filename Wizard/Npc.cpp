@@ -2,6 +2,32 @@
 #include "Game.h"
 #include "QTree.h"
 
+Mix_Chunk  *hitSound,
+           *boom0Sound,
+           *boom1Sound,
+           *boom2Sound,
+           *clickSound,
+           *blastSound,
+           *lightning1,
+           *lightning2,
+           *lightning3,
+           *tornadoSound,
+           *purpleSound,
+           *fireBurstSound;
+void soundLoad2(){
+    hitSound = Mix_LoadWAV("res/wav/hit.wav");
+    boom0Sound = Mix_LoadWAV("res/wav/bom_0.wav");
+    boom1Sound = Mix_LoadWAV("res/wav/bom_1.wav");
+    boom2Sound = Mix_LoadWAV("res/wav/bom_2.wav");
+    clickSound = Mix_LoadWAV("res/wav/click.wav");
+    lightning1 = Mix_LoadWAV("res/wav/lightning1.wav");
+    lightning2 = Mix_LoadWAV("res/wav/lightning2.wav");
+    lightning3 = Mix_LoadWAV("res/wav/lightning3.wav");
+    fireBurstSound = Mix_LoadWAV("res/wav/firehit.wav");
+    tornadoSound = Mix_LoadWAV("res/wav/tornado.wav");
+    purpleSound = Mix_LoadWAV("res/wav/purple.wav");
+    blastSound = Mix_LoadWAV("res/wav/blast.wav");
+}
 Player::Player(double hp, double maxHP, double speed, double scale, AnimationList* animation, SDL_Renderer* renderer, Game* game){
     this->game = game;
     maxAttackFrame = 8;
@@ -21,23 +47,28 @@ Player::Player(double hp, double maxHP, double speed, double scale, AnimationLis
     setRenderer(renderer);
     isEnemy = false;
 
-
+    if(hitSound == NULL){
+        soundLoad2();
+    }
 }
 
-void Player::playAttackAnimation(){
+void Player::playAttackAnimation(double x, double y){
     if(canAttack()){
         setRun(false);
         setAttack(false);
         setAttackFrame(-1);
+        clickedX = x;
+        clickedY = y;
     }
 }
-void Player::castSkill(string name, int level){
+void Player::castSkill(string name, int level, double Sx, double Sy){
     int enemyAt = 0;
     if(name == "fireburst"){
         if(level >= 1 && level<=20){
             int t = game->getSpikeLoc().size();
             if(t>0){
-                for(int i = 0;i <1+level; ++i){
+                Mix_PlayChannel(-1, fireBurstSound, 0);
+                for(int i = 0;i <int(2+level*1.5); ++i){
                     while(enemyAt<t && game->getSpikeLoc().at(enemyAt)->isDead()){
                         enemyAt++;
                     }
@@ -64,6 +95,7 @@ void Player::castSkill(string name, int level){
                         enemyAt++;
                     }
                     if(enemyAt < t && !game->getSpikeLoc().at(enemyAt)->isDead()){
+                        Mix_PlayChannel(-1, tornadoSound, 0);
                         Bullet* b = new Bullet("Tornado", getX(), getY(), 1, 2, 15, true, getRenderer(), getAnimationList(), game);
                         b->victim = game->getSpikeLoc().at(i%t);
                         b->setAttackDamage(1+level/3);
@@ -91,7 +123,7 @@ void Player::castSkill(string name, int level){
                         Bullet* b = new Bullet("Blue", game->getSpikeLoc().at(enemyAt)->getX(), game->getSpikeLoc().at(enemyAt)->getY()-30, 1, 2, 15, true, getRenderer(), getAnimationList(), game);
                         b->setAttackDamage(2+level);
                         b->setHW(180+level*6, 180+level*6);
-                        b->setR(60+level*4);
+                        b->setR(80+level*4);
                         b->skillType = 2;
                         b->canDodge = true;
                         game->getBulletLoc().push_back(b);
@@ -103,32 +135,142 @@ void Player::castSkill(string name, int level){
     }
     else if(name == "purple"){
         if(level >= 1 && level<=20){
+            Mix_PlayChannel(-1, purpleSound, 0);
+            Bullet* b = new Bullet("Purple", Sx, Sy, 1, 2, 15, true, getRenderer(), getAnimationList(), game);
+            b->setAttackDamage(3+level*1.5);
+            b->setHW(220+level*6, 220+level*6);
+            b->setR(80+level*3);
+            b->skillType = 2;
+            b->canDodge = false;
+            game->getBulletLoc().push_back(b);
+        }
+    }
+    else if(name == "lightning"){
+        if(level >= 1 && level<=20){
             int t = game->getSpikeLoc().size();
             if(t>0){
-                while(enemyAt<t && game->getSpikeLoc().at(enemyAt)->isDead()){
-                    enemyAt++;
+                for(int i = 0;i <1+level/2; ++i){
+                    while(enemyAt<t && game->getSpikeLoc().at(enemyAt)->isDead()){
+                        enemyAt++;
+                    }
+                    if(enemyAt < t && !game->getSpikeLoc().at(enemyAt)->isDead()){
+                        Mix_PlayChannel(-1, lightning1, 0);
+                        Bullet* b = new Bullet("Lightning", game->getSpikeLoc().at(enemyAt)->getX(), game->getSpikeLoc().at(enemyAt)->getY()-30, 1, 2, 15, true, getRenderer(), getAnimationList(), game);
+                        b->setAttackDamage(8+level*4);
+                        b->setHW(300, 150);
+                        b->setR(100);
+                        b->skillType = 2;
+                        b->canDodge = false;
+                        game->getBulletLoc().push_back(b);
+                        enemyAt++;
+                    }
                 }
-                if(enemyAt < t && !game->getSpikeLoc().at(enemyAt)->isDead()){
-                    Bullet* b = new Bullet("Purple", game->getSpikeLoc().at(enemyAt)->getX(), game->getSpikeLoc().at(enemyAt)->getY(), 1, 2, 15, true, getRenderer(), getAnimationList(), game);
-                    b->setAttackDamage(3+level*1.5);
-                    b->setHW(220+level*6, 220+level*6);
-                    b->setR(80+level*3);
-                    b->skillType = 2;
-                    b->canDodge = false;
-                    game->getBulletLoc().push_back(b);
-                    enemyAt++;
-                }
-
             }
         }
+    }
+    else if(name == "lightningO"){
+        if(level >= 1 && level<=20){
+            int t = game->getSpikeLoc().size();
+            if(t>0){
+                for(int i = 0;i <1+level/2; ++i){
+                    while(enemyAt<t && game->getSpikeLoc().at(enemyAt)->isDead()){
+                        enemyAt++;
+                    }
+                    if(enemyAt < t && !game->getSpikeLoc().at(enemyAt)->isDead()){
+                        Mix_PlayChannel(-1, lightning2, 0);
+                        Bullet* b = new Bullet("LightningO", game->getSpikeLoc().at(enemyAt)->getX(), game->getSpikeLoc().at(enemyAt)->getY(), 1, 2, 10, true, getRenderer(), getAnimationList(), game);
+                        b->setAttackDamage(3+level*2);
+                        b->setHW(120+level*6, 120+level*6);
+                        b->setR(100+level*4);
+                        b->skillType = 2;
+                        b->canDodge = false;
+                        game->getBulletLoc().push_back(b);
+                        enemyAt++;
+                    }
+                }
+            }
+        }
+    }
+    else if(name == "lightningC"){
+        if(level >= 1 && level<=20){
+            int t = game->getSpikeLoc().size();
+            if(t>0){
+                for(int i = 0;i <1+level/2; ++i){
+                    while(enemyAt<t && game->getSpikeLoc().at(enemyAt)->isDead()){
+                        enemyAt++;
+                    }
+                    if(enemyAt < t && !game->getSpikeLoc().at(enemyAt)->isDead()){
+                        Mix_PlayChannel(-1, lightning3, 0);
+                        Bullet* b = new Bullet("LightningC", game->getSpikeLoc().at(enemyAt)->getX(), game->getSpikeLoc().at(enemyAt)->getY(), 1, 2, 20, true, getRenderer(), getAnimationList(), game);
+                        b->setAttackDamage(6+level*3);
+                        b->setHW(100+level*4, 100+level*7);
+                        b->setR(50+level*4);
+                        b->skillType = 2;
+                        b->canDodge = false;
+                        game->getBulletLoc().push_back(b);
+                        enemyAt++;
+                    }
+                }
+            }
+        }
+    }
+    else if(name == "blast"){
+        if(level >= 1 && level<=20){
+            Mix_PlayChannel(-1, blastSound, 0);
+            Bullet* b = new Bullet("Blast", getX(), getY(), 1, 2, 30, true, getRenderer(), getAnimationList(), game);
+            b->setAttackDamage(5+level*3);
+            b->setHW(400+level*20, 400+level*20);
+            b->setR(200+level*10);
+            b->skillType = 2;
+            b->canDodge = false;
+            game->getBulletLoc().push_back(b);
+            enemyAt++;
+        }
+    }
+}
+void Player::upSkill(string name){
+    bool b = true;
+    int i;
+    for(i = 0;i<skillList.size();++i){
+        if(skillList.at(i)->name == name) {
+            b = false;
+            break;
+        }
+    }
+    if(b){
+        int cooldown = -1;
+             if(name == "blue") cooldown = 4000;
+        else if(name == "tornado") cooldown = 7000;
+        else if(name == "fireburst") cooldown = 2000;
+        else if(name == "blast") cooldown = 7500;
+        else if(name == "lightning") cooldown = 5000;
+        else if(name == "lightningO") cooldown = 6000;
+        else if(name == "lightningC") cooldown = 7000;
+        if (cooldown>0) skillList.push_back(new Skill(name, 1, cooldown));
+    }
+    else{
+        skillList.at(i)->level++;
+        skillList.at(i)->cooldown*=0.98;
     }
 }
 void Player::update(){
     timeBorn+=16.67;
-    timeTemp+=16.67;
-    if(timeTemp>2000){
-        castSkill("fireburst", 10);
-        timeTemp-=2000;
+    if(isDead()){
+        setRun(false);
+        setAttack(false);
+        nextAttackFrame();
+        if(getAttackFrame() > 6*20){
+            game->onPlayerDead();
+        }
+        else setImage(getAnimationList()->getAnimation("WizDead", getAttackFrame()/20 % 7));
+        return;
+    }
+    for(int i = 0;i<skillList.size();++i){
+        skillList.at(i)->timer+=16.67;
+        if(skillList.at(i)->timer >= skillList.at(i)->cooldown){
+            skillList.at(i)->timer = 0;
+            castSkill(skillList.at(i)->name, skillList.at(i)->level, 0, 0);
+        }
     }
 
     if (!canAttack()){
@@ -136,15 +278,8 @@ void Player::update(){
         if(getAttackFrame() > 7*5){
             setRun(true);
             setAttack(true);
-            castSkill("purple", 3);
-            //game->getBulletLoc().push_back(new Bullet("Burst1", getX()-400, getY()-400, getX()+2000, getY()+2000, 0.5, 4, 40, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY()-200, getX()+200, getY()-200, 2, 5, 20, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()-200, getX()-200, getY()-200, 2, 5, 20, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY()+200, getX()-200, getY()+200, 2, 5, 20, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX(), getY()+200, getX(), getY()+200, 2, 5, 20, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX()-200, getY(), getX()-200, getY(), 2, 5, 20, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX()+200, getY(), getX()+200, getY(), 2, 5, 20, true, getRenderer(), getAnimationList(), game));
-            //game->getBulletLoc().push_back(new Bullet("Electric", getX(), getY()-200, getX(), getY()-200, 2, 5, 20, true, getRenderer(), getAnimationList(), game));
+            castSkill("fireburst", 1, clickedX, clickedY);
+            setAttackFrame(0);
         }
         else {
             setImage(getAnimationList()->getAnimation("WizAttack", getAttackFrame()/5 % maxAttackFrame));
@@ -180,18 +315,21 @@ void Player::renderNPC(double x, double y){
 void Player::addXP(double xp){
     nowXP += xp;
     //cout<<"+ "<<xp<<"xp "<<nowXP<<"/"<<maxXP<<"\n";
-    while(nowXP >= maxXP){
+    if(nowXP >= maxXP){
         this->levelUP();
     }
 }
 void Player::levelUP(){
+    maxHP+=10;
+    HP+=10;
     nowXP -= maxXP;
     level++;
-    maxXP += level*10;
+    maxXP += level*15;
+    game->onPlayerLevelUp();
     //cout<<"- LEVEL UP "<<level-1<<"->"<<level<<" -- "<<nowXP<<"/"<<maxXP<<"\n";
 }
 //spikeeeeeeeeeeeeee
-Spike::Spike(string name, double hp, double maxHP, double speed, double scale, double x, double y, AnimationList* animation, SDL_Renderer* renderer, Game* game){
+Spike::Spike(string name, double hp, double maxHP, double attackDamage, double speed, double scale, double x, double y, AnimationList* animation, SDL_Renderer* renderer, Game* game){
     this->game = game;
     this->id = animation->convertNameToID(name);
     maxRunFrame = animation->getMaxFrameAnimation(name) - 1;
@@ -206,6 +344,7 @@ Spike::Spike(string name, double hp, double maxHP, double speed, double scale, d
     setName(name);
     setHP(hp);
     setMaxHP(maxHP);
+    setAttackDamage(attackDamage);
     setSpeed(speed);
     setAnimationList(animation);
     setRenderer(renderer);
@@ -222,6 +361,9 @@ void Spike::update(double _x, double _y){
     //if(game->g->isSafeZone(getX()+speed*vecX, getY()+speed*vecY)){
     addX(speed*vecX);
     addY(speed*vecY);
+    if(collideWith(game->p)){
+        game->p->damaged(this);
+    }
     //}
 
 }
@@ -252,30 +394,6 @@ Bullet::Bullet(string name, double x, double y, double scale, double speed, int 
     isEnemy = false;
 }
 
-//renew frame
-/*
-void Bullet::update(double timeAdd){
-    if(victim != NULL) setToXY(victim->getX(), victim->getY());
-    time += timeAdd;
-    if(time >= speedOfFrame){
-        frame++;
-        time -= speedOfFrame;
-    }
-    if(frame < numberOfFrame) setImage(getAnimationList()->getAnimationWithID(id, frame));
-        else if(loopAnimation) frame = 0;
-
-    double temp = getDirectXY();
-    double dX = temp*(toX-getX());
-    double dY = temp*(toY-getY());
-
-    //if(dX < 0) direct = 0;
-    //else if(dX > 0) direct = 1;
-
-    addX(dX);
-    addY(dY);
-
-}
-*/
 void Bullet::update(double timeAdd){
     time += timeAdd;
     timeT += timeAdd;
@@ -285,10 +403,10 @@ void Bullet::update(double timeAdd){
         //tren duong bay
         if(skillStatus == 0){
             speed*=1.01;
-            if(speed>1.5){
-                speed = speed*1.04+0.0001;
+            if(speed>1.4){
+                speed = speed*1.04+0.0002;
             }
-            if(speed>40){
+            if(speed>50){
                 skillStatus = -1;
                 return;
             }
@@ -317,6 +435,7 @@ void Bullet::update(double timeAdd){
                         game->getSpikeLoc().at(i)->damaged(this);
                         skillStatus = 1;
                         time = 0;
+                        Mix_PlayChannel(-1, hitSound, 0);
                         if(damageType == 0) break;
                     }
                 }

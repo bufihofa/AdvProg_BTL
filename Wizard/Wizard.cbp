@@ -45,7 +45,6 @@
 		<Unit filename="Npc.h" />
 		<Unit filename="QTree.cpp" />
 		<Unit filename="QTree.h" />
-		<Unit filename="SDL_text.cpp" />
 		<Unit filename="SDL_utils.cpp" />
 		<Unit filename="SDL_utils.h" />
 		<Unit filename="VaCham.h" />

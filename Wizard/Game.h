@@ -19,8 +19,9 @@ private:
     vector<Spike*> spike;
     vector<Bullet*> bullet;
     vector<Exp*> exp;
-    bool levelUpMenu = false;
+
 public:
+    bool levelUpMenuOpen = false;
     Player* p;
     Grid* g;
     Game();
@@ -33,12 +34,14 @@ public:
 
     bool isRunning(){ return running; }
     bool isPause(){ return pause; }
-
+    void checkDelay(int& delay);
     void gamePause();
     void gameContinue();
     void createEnemy();
     void createExp();
+    void onPlayerDead();
     void onPlayerLevelUp();
+    void levelUpMenuClicked(string name);
     void drawParticle(int _lifeTime, double _pX, double _pY);
     bool checkCollide(NPC* npc);
 

@@ -18,4 +18,5 @@ void trailtButtonClicked(string buttonClicked);
 void renderMenuWindow();
 void onMenuMouseMove(double x, double y);
 void onMenuMouseClick(double x, double y);
+
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height);

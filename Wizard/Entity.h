@@ -1,5 +1,6 @@
 #pragma once
 #include <bits/stdc++.h>
+#include "SDL_utils.h"
 using namespace std;
 
 class Point{
@@ -110,27 +111,27 @@ public:
     void render()   {SDL_RenderCopyEx(renderer, image, NULL, &pos, angle, NULL, SDL_FLIP_NONE);}
     void renderCenter(){
 
-        pos_center.x = pos.x - pos.h/2.0;
-        pos_center.y = pos.y - pos.w/2.0;
+        pos_center.x = pos.x - pos.w/2.0;
+        pos_center.y = pos.y - pos.h/2.0;
         SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_NONE);
     }
     void renderCenterEx(char _c){
 
-        pos_center.x = pos.x - pos.h/2.0;
-        pos_center.y = pos.y - pos.w/2.0;
+        pos_center.x = pos.x - pos.w/2.0;
+        pos_center.y = pos.y - pos.h/2.0;
         if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
             else      SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
     void renderCenter_Cam(double& dx, double& dy){
 
-        pos_center.x = pos.x - pos.h/2.0 - dx;
-        pos_center.y = pos.y - pos.w/2.0 - dy;
+        pos_center.x = pos.x - pos.w/2.0 - dx;
+        pos_center.y = pos.y - pos.h/2.0 - dy;
         SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_NONE);
     }
     void renderCenterEx_Cam(double& dx, double& dy, char _c){
 
-        pos_center.x = pos.x - pos.h/2.0 - dx;
-        pos_center.y = pos.y - pos.w/2.0 - dy;
+        pos_center.x = pos.x - pos.w/2.0 - dx;
+        pos_center.y = pos.y - pos.h/2.0 - dy;
         if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
         else    SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
