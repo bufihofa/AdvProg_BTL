@@ -144,15 +144,15 @@
 	<bits/stdc++.h>
 	"Menu.h"
 
-1683022993 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\menu.h
+1683367613 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\menu.h
 	<bits/stdc++.h>
 	"Entity.h"
 
-1683036368 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\entity.h
+1683356346 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\entity.h
 	<bits/stdc++.h>
 	"SDL_utils.h"
 
-1683280234 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
+1683384369 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.cpp
 	"MainMenu.h"
 	"Menu.h"
 	"NewGame.h"
@@ -161,13 +161,13 @@
 	<bits/stdc++.h>
 	<SDL.h>
 
-1683217890 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\newgame.cpp
+1683388567 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\newgame.cpp
 	"NewGame.h"
 	"Game.h"
 	<thread>
 	<chrono>
 
-1683217885 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.h
+1683391962 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.h
 	<bits/stdc++.h>
 	<SDL.h>
 	"Animation.h"
@@ -176,24 +176,25 @@
 	<bits/stdc++.h>
 	"SDL_utils.h"
 
-1683261701 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.cpp
+1683392284 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\game.cpp
 	<bits/stdc++.h>
 	"Game.h"
 	"Entity.h"
 	"Npc.h"
-	"QTree.h"
+	"Grid.h"
 	"MainMenu.h"
 	"Menu.h"
+	"NewGame.h"
 
-1683025089 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
+1683389350 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.h
 	<bits/stdc++.h>
 	"Animation.h"
 	"Entity.h"
 
-1683280958 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
+1683391231 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\npc.cpp
 	"Npc.h"
 	"Game.h"
-	"QTree.h"
+	"Grid.h"
 
 1683036614 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\mainmenu.h
 	<bits/stdc++.h>
@@ -224,4 +225,12 @@
 	<bits/stdc++.h>
 
 1683262303 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\rr.rc
+
+1683351725 c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\grid.h
+	<bits/stdc++.h>
+
+1683388181 source:c:\users\hoapr\onedrive\máy tính\btl ltnc\bv\advprog_btl\wizard\grid.cpp
+	"Grid.h"
+	"Game.h"
+	"Npc.h"
 

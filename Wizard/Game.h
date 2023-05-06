@@ -21,6 +21,7 @@ private:
     vector<Exp*> exp;
 
 public:
+    int diffMode = 0;
     bool levelUpMenuOpen = false;
     Player* p;
     Grid* g;
@@ -31,7 +32,10 @@ public:
     void handleEvents();
     void update();
     void render();
-
+    void levelUpIconRender();
+    void timeRender();
+    void timeRender2();
+    void scoreRender();
     bool isRunning(){ return running; }
     bool isPause(){ return pause; }
     void checkDelay(int& delay);
@@ -41,6 +45,7 @@ public:
     void createExp();
     void onPlayerDead();
     void onPlayerLevelUp();
+    void deadMenuClicked(string name);
     void levelUpMenuClicked(string name);
     void drawParticle(int _lifeTime, double _pX, double _pY);
     bool checkCollide(NPC* npc);

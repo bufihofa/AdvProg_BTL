@@ -36,6 +36,8 @@
 		<Unit filename="Entity.h" />
 		<Unit filename="Game.cpp" />
 		<Unit filename="Game.h" />
+		<Unit filename="Grid.cpp" />
+		<Unit filename="Grid.h" />
 		<Unit filename="MainMenu.cpp" />
 		<Unit filename="MainMenu.h" />
 		<Unit filename="Menu.h" />
@@ -43,8 +45,6 @@
 		<Unit filename="NewGame.h" />
 		<Unit filename="Npc.cpp" />
 		<Unit filename="Npc.h" />
-		<Unit filename="QTree.cpp" />
-		<Unit filename="QTree.h" />
 		<Unit filename="SDL_utils.cpp" />
 		<Unit filename="SDL_utils.h" />
 		<Unit filename="VaCham.h" />

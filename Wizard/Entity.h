@@ -49,13 +49,6 @@ public:
 
     double getW()  {return pos_double.getW();}
     void setW(double w)    {pos_double.setW(w);  pos.w=pos_double.getW(); pos_center.w = pos.w;}
-    void setCenterX(double _w)  {this->setX(_w/2 - this->getW()/2);}
-    double getCenterX(){
-        return getX()+getW()/2;
-    }
-    double getCenterY(){
-        return getY()+getH()/2;
-    }
 
     void setXY(double x,double y){
         this->setX(x);
@@ -65,17 +58,6 @@ public:
         this->setW(w);
         this->setH(h);
     }
-    void setAC(double x, double y){
-        this->setX(x-getW()/2.0);
-        this->setY(y-getH()/2.0);
-    }
-
-    double getAngle(){
-        return this->angle;
-    }
-    void setAngle(double angle){
-        this->angle = angle;
-    }
     void setScale(double x){
         this->setH(this->getH()*x);
         this->setW(this->getW()*x);
@@ -83,8 +65,6 @@ public:
     }
     void addX(double x){this->setX(this->getX()+x);}
     void addY(double y){this->setY(this->getY()+y);}
-    void addH(double h){this->setH(this->getH()+h);}
-    void addW(double w){this->setW(this->getW()+w);}
 
     bool isClicked(int x, int y){
         return ((x >= getX()) && (x <= getX()+getW()) && (y >= getY()) && (y <= getY() + getH()));
@@ -135,8 +115,6 @@ public:
         if(_c == 'h')  SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_HORIZONTAL);
         else    SDL_RenderCopyEx(renderer, image, NULL, &pos_center, angle, NULL, SDL_FLIP_VERTICAL);
     }
-
-
 
 
     void setRenderer(SDL_Renderer* renderer)    {this->renderer = renderer;}

@@ -29,25 +29,25 @@ int getMenuOpening(string buttonClicked){
 void createMainMenu(){
     clickWav = Mix_LoadWAV("res/wav/click.wav");
     mainMenu = new Menu(mRenderer);
-    mainMenu->addButton("PlayMenu", 600, 700, "res/Menu/PlayButton.png", mRenderer, 1, false, true);
-    mainMenu->addButton("MageMenu", 400, 700, "res/Menu/MageButton.png", mRenderer, 1, false, true);
-    mainMenu->addButton("TrailMenu", 800, 700, "res/Menu/TrailButton.png", mRenderer, 1, false, true);
+    mainMenu->addButton("PlayMenu", 600, 700, "res/Menu/PlayButton.png", mRenderer, 1, true);
+    mainMenu->addButton("MageMenu", 400, 700, "res/Menu/MageButton.png", mRenderer, 1, true);
+    mainMenu->addButton("TrailMenu", 800, 700, "res/Menu/TrailButton.png", mRenderer, 1, true);
 }
 void createPlayMenu(){
     playMenu = new Menu(mRenderer);
-    playMenu->addButton("easy", 600, 200, "res/Menu/easy.png", mRenderer, 0.45, false, true);
-    playMenu->addButton("medium", 600, 350, "res/Menu/normal.png", mRenderer, 0.45, false, true);
-    playMenu->addButton("hard", 600, 500, "res/Menu/hard.png", mRenderer, 0.45, false, true);
+    playMenu->addButton("easy", 600, 200, "res/Menu/easy.png", mRenderer, 0.45, true);
+    playMenu->addButton("medium", 600, 350, "res/Menu/normal.png", mRenderer, 0.45, true);
+    playMenu->addButton("hard", 600, 500, "res/Menu/hard.png", mRenderer, 0.45, true);
 }
 void createMageMenu(){
     mageMenu = new Menu(mRenderer);
-    mageMenu->addButton("howtoplay", 600, 360, "res/Menu/howtoplay.png", mRenderer, 0.8, false, true);
+    mageMenu->addButton("howtoplay", 600, 360, "res/Menu/howtoplay.png", mRenderer, 0.8, true);
 }
 void createTrailMenu(){
     trailMenu = new Menu(mRenderer);
-    trailMenu->addButton("f1", 600, 150, "res/Menu/EasyMode.png", mRenderer, 0.3, false, true);
-    trailMenu->addButton("f2", 600, 350, "res/Menu/MediumMode.png", mRenderer, 0.3, false, true);
-    trailMenu->addButton("f3", 600, 550, "res/Menu/HardMode.png", mRenderer, 0.3, false, true);
+    trailMenu->addButton("f1", 600, 150, "res/Menu/EasyMode.png", mRenderer, 0.3, true);
+    trailMenu->addButton("f2", 600, 350, "res/Menu/MediumMode.png", mRenderer, 0.3, true);
+    trailMenu->addButton("f3", 600, 550, "res/Menu/HardMode.png", mRenderer, 0.3, true);
 }
 void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height){
     mWindow = window;
@@ -109,13 +109,9 @@ void renderMenuWindow(){
     else if(menuOpening == 2) mageMenu->render();
     else if(menuOpening == 3) trailMenu->render();
 
-    pointer->setAngle(pointer->getAngle()+3);
-    pointer->renderCenter();
-
     SDL_RenderPresent(mRenderer);
 }
 void onMenuMouseMove(double x, double y){
-    pointer->setXY(x, y);
     mainMenu->onMouseMove(x , y);
 
     switch(menuOpening){

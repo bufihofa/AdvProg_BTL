@@ -15,14 +15,12 @@ public:
         this->name = name;
         this->level = level;
         this->cooldown = cooldown;
+        this->timer = cooldown*0.8;
     }
 };
 //######################### NPC #################################################
 class NPC: public Entity{
 protected:
-
-
-
 
     int maxAttackFrame;
     int maxRunFrame;
@@ -39,28 +37,29 @@ protected:
     bool Attack = true;
 
     int direct = 0;
-    int attackFrame = 0;
     double timeBorn = 0;
 
     Game* game;
     AnimationList* animationList;
 
-    double r = 10;
-    bool isHitted = false;
+
+
 public:
     double toX;
     double toY;
     double vecX = 0;
     double vecY = 0;
-
+    bool isHitted = false;
+    int hitCount = 0;
+    int hitSoundCount = 0;
     bool isEnemy = true;
+    int attackFrame = 0;
+    int deadFrame = 0;
+    int walkFrame = 0;
+    double r = 10;
 
     void setAnimationList(AnimationList* animation)   {this->animationList = animation;}
     AnimationList* getAnimationList()                 {return animationList;}
-
-    void setAttackFrame(int i)  {attackFrame = i;}
-    int  getAttackFrame()       {return attackFrame;}
-    void nextAttackFrame()      {attackFrame++;}
 
     double getHP()     {return this->HP;}
     double getMaxHP()  {return this->maxHP;}
@@ -87,15 +86,10 @@ public:
         this->toX = toX;
         this->toY = toY;
     }
-    void setToX(double toX){this->toX = toX;}
-    void setToY(double toY){this->toY = toY;}
 
     double getToX() {return toX;}
     double getToY() {return toY;}
 
-    double getDirectXY(){
-        return min(1.0, getSpeed()/sqrt((toX-getX())*(toX-getX()) + (toY-getY())*(toY-getY())));
-    }
 
     void setName(string name){this->name = name;}
     string getName()         {return this->name;}
@@ -105,23 +99,15 @@ public:
             else        this->renderCenter_Cam( x,  y);
     }
 
-    void setR(double r){
-        this->r = r;
-    }
-    double getR(){
-        return r;
-    }
-
     bool collideWith(NPC* b){
-        return sqrt((b->getX()-getX()) * (b->getX()-getX()) + (b->getY()-getY())*(b->getY()-getY())) < getR() + b->getR() ;
+        return sqrt((b->getX()-getX()) * (b->getX()-getX()) + (b->getY()-getY())*(b->getY()-getY())) < r + b->r ;
     }
     bool collideWith2(NPC* b){
-        return ((b->getX()-getX()) * (b->getX()-getX()) + (b->getY()-getY())*(b->getY()-getY())) < (getR() + b->getR())*(getR() + b->getR())*0.6 ;
+        return ((b->getX()-getX()) * (b->getX()-getX()) + (b->getY()-getY())*(b->getY()-getY())) < (r + b->r)*(r + b->r)*0.6 ;
     }
     void updateR(){
         r = max(getW(), getH())/2;
     }
-
     void updateVec(double dx, double dy){
         dx -= getX();
         dy -= getY();
@@ -134,6 +120,7 @@ public:
         vecX = dx/delta;
         vecY = dy/delta;
     }
+
     void updateVec2(double dx, double dy){
         dx -= getX();
         dy -= getY();
@@ -145,6 +132,7 @@ public:
         vecX = dx/delta;
         vecY = dy/delta;
     }
+
     double distanceBetween(NPC* npc){
         return sqrt((getX()-npc->getX())*(getX()-npc->getX())+(getY()-npc->getY())*(getY()-npc->getY()));
     }
@@ -158,7 +146,7 @@ public:
 class Player: public NPC{
 private:
     double nowXP = 0;
-    double maxXP = 300;
+    double maxXP = 200;
     double level = 1;
     double timeTemp = 0;
     double clickedX;

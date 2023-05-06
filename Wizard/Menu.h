@@ -10,7 +10,7 @@ private:
     string name;
 public:
     mButton(){}
-    mButton(string name, double x, double y, string path, SDL_Renderer* renderer, double scale, bool isCenter, bool canHL){
+    mButton(string name, double x, double y, string path, SDL_Renderer* renderer, double scale, bool canHL){
 
         this->name = name;
         setRenderer(renderer);
@@ -21,7 +21,6 @@ public:
 
         this->setScale(scale);
         setXY(x, y);
-        if(isCenter) this->setCenterX(1200);
         this->canHL = canHL;
     }
     bool isHighLight(){return isHL;}
@@ -53,13 +52,12 @@ public:
     Menu(SDL_Renderer* renderer, string path){
         this->setRenderer(renderer);
         panel = Entity(600, 400, path, renderer);
-        panel.setAC(600, 400);
     }
     void setRenderer(SDL_Renderer* renderer){
         this->renderer = renderer;
     }
-    void addButton(string name, double x, double y, string path, SDL_Renderer* renderer, double scale, bool isCenter, bool canHL){
-        buttonList.push_back(mButton(name, x, y, path, renderer, scale, isCenter, canHL));
+    void addButton(string name, double x, double y, string path, SDL_Renderer* renderer, double scale, bool canHL){
+        buttonList.push_back(mButton(name, x, y, path, renderer, scale, canHL));
     }
     Entity* getPanel(){
         return &panel;
@@ -103,7 +101,7 @@ public:
         return "-1";
     }
     void render(){
-        panel.render();
+        panel.renderCenter();
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
                 buttonList.at(i).renderCenter();
