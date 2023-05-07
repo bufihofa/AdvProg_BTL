@@ -47,6 +47,7 @@ public:
     void onPlayerLevelUp();
     void deadMenuClicked(string name);
     void levelUpMenuClicked(string name);
+    void pauseMenuClicked(string name);
     void drawParticle(int _lifeTime, double _pX, double _pY);
     bool checkCollide(NPC* npc);
 

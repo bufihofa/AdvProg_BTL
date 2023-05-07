@@ -63,7 +63,6 @@ void createMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _hei
     createPlayMenu();
     createMageMenu();
     createTrailMenu();
-
 }
 void playButtonClicked(string buttonClicked){
     if(buttonClicked == "easy"){
@@ -143,20 +142,24 @@ void onMenuMouseClick(double x, double y){
 }
 
 void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _height){
+    mWindow = window;
+    mRenderer = renderer;
     if(mainMenu == NULL){
         createMenu(window, renderer, _width, _height);
     }
     //SDL_ShowCursor(0);
     SDL_Event ev;
-    int FPS = 60;
-    int frameDelay = 1000 / FPS;
+    double FPS = 30;
+    double frameDelay = 1000 / FPS;
     int frameTime = 0;
     MENU = true;
     while(MENU){
         frameTime = SDL_GetTicks();
         renderMenuWindow();
         while(SDL_PollEvent(&ev) != 0){
-            if(ev.type == SDL_QUIT) return;
+            if(ev.type == SDL_QUIT){
+                return;
+            }
 
             if(ev.type == SDL_MOUSEMOTION){
                 onMenuMouseMove(ev.button.x, ev.button.y);
@@ -166,13 +169,12 @@ void openMenu(SDL_Window* window, SDL_Renderer* renderer, int _width, int _heigh
                 onMenuMouseClick(ev.button.x, ev.button.y);
             }
         }
-        //cout<<"render\n";
         if(!MENU) return;
         frameTime = frameDelay - SDL_GetTicks() + frameTime;
+
         if(frameTime>0) this_thread::sleep_for(chrono::milliseconds(frameTime));
 
     }
-
 }
 
 

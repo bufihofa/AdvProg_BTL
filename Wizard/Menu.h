@@ -41,8 +41,8 @@ public:
 };
 class Menu{
 private:
-    Entity panel;
-    deque<mButton> buttonList;
+    Entity* panel = NULL;
+    vector<mButton*> buttonList;
     SDL_Renderer* renderer;
 public:
     Menu(){}
@@ -51,29 +51,29 @@ public:
     }
     Menu(SDL_Renderer* renderer, string path){
         this->setRenderer(renderer);
-        panel = Entity(600, 400, path, renderer);
+        panel = new Entity(600, 400, path, renderer);
     }
     void setRenderer(SDL_Renderer* renderer){
         this->renderer = renderer;
     }
     void addButton(string name, double x, double y, string path, SDL_Renderer* renderer, double scale, bool canHL){
-        buttonList.push_back(mButton(name, x, y, path, renderer, scale, canHL));
+        buttonList.push_back(new mButton(name, x, y, path, renderer, scale, canHL));
     }
     Entity* getPanel(){
-        return &panel;
+        return panel;
     }
     mButton* getButton(int stt_button){
         if(stt_button < buttonList.size())
-            return &buttonList.at(stt_button);
+            return buttonList.at(stt_button);
     }
     void onMouseMove(double x, double y){
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
-                buttonList.at(i).unHighLight();
+                buttonList.at(i)->unHighLight();
             }
             for(int i=0;i<buttonList.size();++i){
-                if(buttonList.at(i).isClickedCenter(x, y)){
-                    buttonList.at(i).HighLight();
+                if(buttonList.at(i)->isClickedCenter(x, y)){
+                    buttonList.at(i)->HighLight();
                     return;
                 }
             }
@@ -81,30 +81,30 @@ public:
     }
     void forceHL(int i){
         if(i < buttonList.size())
-            buttonList.at(i).HighLight();
+            buttonList.at(i)->HighLight();
     }
     void forceUnHL(){
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
-                buttonList.at(i).unHighLight();
+                buttonList.at(i)->unHighLight();
             }
         }
     }
     string getButtonClicked(double x, double y){
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
-                if(buttonList.at(i).isClickedCenter(x, y)){
-                    return buttonList.at(i).getName();
+                if(buttonList.at(i)->isClickedCenter(x, y)){
+                    return buttonList.at(i)->getName();
                 }
             }
         }
         return "-1";
     }
     void render(){
-        panel.renderCenter();
+        if(panel != NULL) panel->renderCenter();
         if(!buttonList.empty()){
             for(int i=0;i<buttonList.size();++i){
-                buttonList.at(i).renderCenter();
+                buttonList.at(i)->renderCenter();
             }
         }
     }

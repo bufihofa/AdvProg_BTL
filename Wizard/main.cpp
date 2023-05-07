@@ -8,6 +8,7 @@ SDL_Renderer* renderer = NULL;
 int main(int argc, char* argv[])
 {
     initSDL(window, renderer, 1200, 800, "Endless Wizard");
+    cout<<"INIT SDL\n";
     openMenu(window, renderer, 1200, 800);
     return 0;
 }

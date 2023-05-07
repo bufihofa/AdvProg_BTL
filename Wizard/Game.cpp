@@ -73,6 +73,8 @@ int giay1;
 int giay2;
 int phut1;
 int phut2;
+bool PauseMenu;
+
 void createLevelUpMenu(SDL_Renderer* renderer){
     levelUpMenu = new Menu(renderer, "res/Menu/PlayMenu.png");
     levelUpMenu->getPanel()->setH(400);
@@ -83,6 +85,11 @@ void createLevelUpMenu(SDL_Renderer* renderer){
     deadMenu = new Menu(renderer, "res/Menu/DeadPanel.png");
     deadMenu->addButton("1", 450, 550, "res/Menu/RestartButton.png", renderer, 0.55, true);
     deadMenu->addButton("2", 750, 550, "res/Menu/MenuButton.png", renderer, 0.55, true);
+
+    pauseMenu = new Menu(renderer, "res/Menu/PausePanel.png");
+    pauseMenu->addButton("1", 400, 550, "res/Menu/RestartButton.png", renderer, 0.55, true);
+    pauseMenu->addButton("2", 800, 550, "res/Menu/MenuButton.png", renderer, 0.55, true);
+    pauseMenu->addButton("3", 600, 550, "res/Menu/ResumeButton.png", renderer, 0.55, true);
 }
 
 void loadGrassTile(int t, SDL_Renderer* renderer){
@@ -104,6 +111,7 @@ void Game::checkDelay(int& delay){
     //cout<<delay<<"\n";
 }
 void Game::timeRender(){
+    numberPen->setHW(30, 25);
     numberPen->setXY(560, 20);
     numberPen->setImage(number.at(phut1));
     numberPen->render();
@@ -151,6 +159,8 @@ void Game::scoreRender(){
 }
 Game::Game(SDL_Window* window, SDL_Renderer* renderer, AnimationList* animation){
     GameTime = 0;
+    SpawnTime = 0;
+    SpawnCountTime = 0;
     this->renderer = renderer;
     this->window = window;
     this->animation = animation;
@@ -214,6 +224,7 @@ Game::Game(SDL_Window* window, SDL_Renderer* renderer, AnimationList* animation)
     startTime = SDL_GetTicks();
     cout<<"LOG: Create Game OK\n";
     score = 0;
+    PauseMenu = false;
 }
 
 void Game::renderGrass(SDL_Renderer* renderer, int _dx, int _dy){
@@ -232,11 +243,8 @@ void Game::renderGrass(SDL_Renderer* renderer, int _dx, int _dy){
 */
 void Game::gamePause(){
     this->pause = true;
-    //pauseButton.setImage(loadTexture("resources/Play_BTN.png", this->renderer));
-    //pausetext.render();
 }
 void Game::gameContinue(){
-    //pauseButton.setImage(loadTexture("resources/Pause_BTN.png", this->renderer));
     this->pause = false;
 }
 void Game::deadMenuClicked(string name){
@@ -246,6 +254,19 @@ void Game::deadMenuClicked(string name){
     }
     if(name=="2"){
         openMenu(window, renderer, 1200, 800);
+    }
+}
+void Game::pauseMenuClicked(string name){
+    Mix_PlayChannel(-1, clickedSound, 0);
+    if(name=="1"){
+        newGame(window, renderer, diffMode);
+    }
+    if(name=="2"){
+        openMenu(window, renderer, 1200, 800);
+    }
+    if(name=="3"){
+        PauseMenu = false;
+        gameContinue();
     }
 }
 void Game::levelUpMenuClicked(string name){
@@ -357,10 +378,23 @@ void Game::handleEvents(){
         return;
     }
     if(event.type == SDL_KEYDOWN){
-        if((event.key.keysym.sym == SDLK_a)){
-            //gamePause();
-            //openMenu(window, renderer, 1200, 800);
+        if((event.key.keysym.sym == SDLK_ESCAPE)){
+            gamePause();
+            PauseMenu = true;
         }
+    }
+    if(PauseMenu){
+        if(event.type == SDL_MOUSEMOTION){
+            pauseMenu->onMouseMove(event.button.x , event.button.y);
+        }
+        if(event.type == SDL_MOUSEBUTTONDOWN){
+            pauseMenuClicked(pauseMenu->getButtonClicked(event.button.x, event.button.y));
+        }
+        pauseMenu->render();
+        timeRender2();
+        scoreRender();
+        SDL_RenderPresent(renderer);
+        return;
     }
     if(!this->isPause()){
         if(event.type == SDL_MOUSEBUTTONDOWN && player->canAttack()){

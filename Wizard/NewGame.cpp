@@ -52,8 +52,8 @@ void newGame(SDL_Window* window, SDL_Renderer* renderer, int diffMode){
 
     game = new Game(window, renderer, animation);
     game->diffMode = diffMode;
-    int UPS = 60;
-    int updateDelay = 1000 / UPS;
+    double UPS = 60;
+    double updateDelay = 1000 / UPS;
     int updateTime = 0;
     int delay;
     while(game->isRunning()){
