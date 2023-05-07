@@ -2,6 +2,7 @@
 ### Bùi Văn Hòa - 22021163
 Bài tập lớn môn Lập trình nâng cao 
 
+https://github.com/bufihofa/AdvProg_BTL/releases/tag/demo ->  Tải file Play.zip -> nếu trình duyệt phát hiện virus -> giữ lại -> tải về -> giải nén -> mở file FireWizard.exe để chơi -> run anyway
 # Endless Wizard
 Mô tả game: Người chơi sẽ là một phù thủy, di chuyển để tránh né kẻ địch và nhặt các hạt kinh nghiệm để thăng cấp, thăng cấp sẽ được lựa chọn kỹ năng để thăng cấp, các kỹ năng sẽ tự động dùng lên các kẻ địch gần nhất sau mỗi khoảng trễ. Bản đồ vô hạn, số lượng và sức mạnh của kẻ địch tăng lên theo thời gian, kẻ địch có thể né các kỹ năng của bạn.
 Có 3 chế độ: dễ, bình thường, khó. 
