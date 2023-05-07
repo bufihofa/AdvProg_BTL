@@ -250,18 +250,22 @@ void Game::gameContinue(){
 void Game::deadMenuClicked(string name){
     Mix_PlayChannel(-1, clickedSound, 0);
     if(name=="1"){
+        running = false;
         newGame(window, renderer, diffMode);
     }
     if(name=="2"){
+        running = false;
         openMenu(window, renderer, 1200, 800);
     }
 }
 void Game::pauseMenuClicked(string name){
     Mix_PlayChannel(-1, clickedSound, 0);
     if(name=="1"){
+        running = false;
         newGame(window, renderer, diffMode);
     }
     if(name=="2"){
+        running = false;
         openMenu(window, renderer, 1200, 800);
     }
     if(name=="3"){
@@ -360,6 +364,9 @@ void Game::handleEvents(){
         if(event.type == SDL_MOUSEBUTTONDOWN){
             deadMenuClicked(deadMenu->getButtonClicked(event.button.x, event.button.y));
         }
+        if(!running){
+            return;
+        }
         deadMenu->render();
         timeRender2();
         scoreRender();
@@ -372,9 +379,15 @@ void Game::handleEvents(){
         if(event.type == SDL_MOUSEBUTTONDOWN){
             levelUpMenuClicked(levelUpMenu->getButtonClicked(event.button.x, event.button.y));
         }
+        if(!running){
+            return;
+        }
         levelUpMenu->render();
         levelUpIconRender();
         SDL_RenderPresent(renderer);
+        return;
+    }
+    if(!running){
         return;
     }
     if(event.type == SDL_KEYDOWN){
